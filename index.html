@@ -12,7 +12,7 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="./assets/css/style.css">
-
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
         <script src="./assets/js/global.js" defer></script>
         <script src="index.js" type="module"></script>
 
@@ -21,8 +21,9 @@
             <!--HEADER-->     
                 <header class="header">
                     <a href="./index.html" class="logo">
-                        <img src="./assets/images/logo.ico" width="40" height="40" alt="TopCinema home" >
+                        <img src="./assets/images/logo.ico" width="40" height="40" alt="TopCinema menu-item" >
                     </a>
+                    
                     <div class="search-box" search-box>
                         <div class="search-wrapper" search-wrapper>
                             <input type="text" name="search" placeholder="search"aria-label="search" class="search-field" autocomplete="off">
@@ -34,10 +35,39 @@
                         <button class="search-btn" search toggler menu-close>
                             <img src="assets/images/search.png" width="24" height="24"alt="open search box">
                         </button>
+                        
                     </div>
                     
                                 
             </header>
+            <nav class="side-bar">
+                <ul>
+                    <li class="menu-item">
+                        <a href="#">
+                            <span class="icon"><i class="bi bi-house"></i></span>
+                            <span class="txt-link">home </span>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="#">
+                            <span class="icon"><i class="bi bi-compass"></i></span>
+                            <span class="txt-link">explorar</span>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="#">
+                            <span class="icon"><i class="bi bi-collection"></i></span>
+                            <span class="txt-link">biblioteca</span>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="#">
+                            <span class="icon"><i class="bi bi-gear"></i></span>
+                            <span class="txt-link">Defenições</span>
+                        </a>
+                    </li> 
+                </ul>
+            </nav>
         </body>
 </html>
 
