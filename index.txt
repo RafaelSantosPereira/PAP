@@ -30,11 +30,9 @@ Sci-Fi
 Language
 
 English
-Hindi
-Bengali
+
 
 Copyright 2023
-href = https://youtube.com/@codewithsadee
 codewithsadee
 
 alt = the movie database logo
