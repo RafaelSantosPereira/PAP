@@ -174,15 +174,13 @@ header{
 }
 .search-wrapper:focus-within .leading-icon{opacity: 0;}
 
-.search-field{ /* barra de pesquisa*/
-    
+.search-field{ /* barra de pesquisa*/   
     height: 48px;
     line-height: 48px;
     padding-inline: 44px 16px;
     outline: none;
     border-radius: var(--radius-8);
-    transition: var(--transition-short);
-    
+    transition: var(--transition-short);    
     background-color: var(--surface);
     /* Adicione uma borda para que a caixa de texto seja visível */
     color: white; /* Define a cor do texto */
@@ -204,9 +202,7 @@ header{
 }
 .header .logo{margin-inline-end: auto;}
 
-.search-btn,
-
-.search-btn{
+.search-btn,.search-btn{
     background-color: var(--banner-background);
     border-radius: var(--radius-8);
     opacity: 0.5;
@@ -214,9 +210,7 @@ header{
     top: 50px;
     padding: 14px;
 }
-.search-btn:hover {
-    opacity: 1;
-}
+.search-btn:hover { opacity: 1;}
 
 /*SIDE-BAR */
 
@@ -229,8 +223,7 @@ nav.side-bar{
     text-align: center;
     position: absolute;   
 }
-.menu-item .icon{
-    font-size: 25px;
+.menu-item .icon{font-size: 25px;
 }
 .menu-item .txt-link{
     font-size: 11px;
@@ -243,25 +236,14 @@ nav.side-bar{
     align-items: center;
     margin-bottom: 10px;
 }
-.menu-item a {
-   
-   padding-top: 4px;
+.menu-item a {padding-top: 4px;}
 
-}
-
-.menu-item:hover {
-    background-color: var(--banner-background);
-}
-
-.menu-item:hover .txt-link {
-    display: block;
-}
-li{
-    list-style-type: none;  
-}
+.menu-item:hover{background-color: var(--banner-background);}
+.menu-item:hover .txt-link {display: block;}
+li{list-style-type: none;}
 
 /*BANNER */
-.image-cover, .heading, .title-large{
+.imag-cover, .heading, .title-large{
     font-weight: var(--weight-bold);
     letter-spacing: 0.5px;
 }
@@ -278,7 +260,8 @@ li{
 .heading{
     color: var(--white);
     font-size: var(--fs-heading); 
-    
+
+
 }
 .title-large{
     font-size: var(--fs-title-lg);   
@@ -287,6 +270,14 @@ li{
     display: flex;
     align-items: center;
     gap: 4px;
+}
+.card-badge {
+    background-color: var(--banner-background);
+    color: var(--white);
+    font-size: var(--fs-label);
+    font-weight: var(--weight-bold);
+    padding-inline: 6px;
+    border-radius: var(--radius-4);
 }
 .btn {
     color: var(--white);
@@ -302,7 +293,7 @@ li{
     transition: var(--transition-short);
 }
 .container{
-    position: absolute;
+    position: relative;
     background-color: var(--surface);
     color: var(--on-surface);
     margin-left: 87px;
@@ -326,12 +317,17 @@ li{
     position: relative;
     height: 700px;
     border-radius: var(--radius-24);
-    overflow: hidden
+
+    overflow: hidden;
+
 }
 .banner-slider .slider-item{
     position: absolute;
     top: 0;
     left: 120%;
+
+    width: 100%;
+
     height: 100%;
     background-color: var(--banner-background);
     opacity: 0;
@@ -344,6 +340,9 @@ li{
     position: absolute;
     inset: 0;
     background-image: linear-gradient(var(--banner-overlay));
+
+
+
 }
 .banner-slider .active{
     left: 0;
@@ -358,6 +357,157 @@ li{
     z-index: 1;
     color: var(--text-color);
 }
+
+
+/* Este seletor ":is" combina elementos que têm a classe .banner 
+e também têm a classe .heading ou .banner-text. */
+.banner :is(.heading, .banner-text){
+    display: -webkit-box; 
+    /*define o modelo de layout do elemento para "box"
+    utiliza o modelo de layout para navegadores WebKit (como o Safari e o Chrome).*/
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+.banner .heading{
+    -webkit-line-clamp: 3;
+    margin-block-end: 16px;
+}
+.meta-list{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 12px;
+    align-items: center;
+}
+.banner .genre{
+    margin-block: 12px; /* define todas as margin ao redor do elemento em 12px */
+}
+.banner-text{
+    -webkit-line-clamp: 2; /* limita a quantidade do texto a 2 linhas*/
+    margin-block-end: 24px;
+}
+.banner .btn{background-color: var(--primary);}
+
+.banner .btn:is(:hover, :focus-visible){
+    box-shadow: var(--shadow-2);
+}
+.slider-control{
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    right: 0;
+    border-radius: var(--radius-16) 0 0 var(--radius-16);
+    user-select: none;
+    padding: 4px 0 4px 4px;
+    overflow-x: auto;
+}
+.slider-control:is(:hover, :focus-within)::-webkit-scrollbar-thumb{
+    
+    background-color: var(--banner-background);
+}
+.slider-control::-webkit-scrollbar-button{width: 20px}
+
+.control-inner{
+    display: flex;
+    gap: 12px;
+}
+.control-inner::after{
+    content: "";
+    min-width: 12px;
+}
+.slider-control .slider-item{
+    width: 100px;
+    border-radius: var(--radius-8);
+    flex-shrink: 0;
+    filter: brightness(0.4);
+}
+.slider-control .active{
+    filter: brightness(1);
+    box-shadow: var(--shadow-1);
+}
+.poster-box{
+    background-image: url('../images/poster-bg-icon.png');
+    aspect-ratio: 2 / 3;    
+}
+.poster-box,.video-card{
+    background-repeat: no-repeat;
+    background-size: 50px;
+    background-position: center;   
+    background-color: var(--banner-background);
+    border-radius: var(--radius-16);
+    overflow: hidden;
+}
+
+/* MOVIE LIST */
+
+/* adiciona uma margin no final do bloco do elemento ou seja em baixo */
+.movie-list{ padding-block-start: 32px;  }
+
+
+.title-wrapper{margin-block-end: 24px;}
+
+.slider-list{
+    /*adiciona 20px no final do texto ou seja á
+    direita ou á esquerda dependendo de como é lida a lingua*/
+    
+    padding-block-end: 16px;
+    margin-block-end: -16px;
+    overflow-x: overlay;
+}
+.slider-list::-webkit-scrollbar-thumb{background-color: transparent;}
+
+.slider-list:is(:hover, :focus-within)::-webkit-scrollbar-thumb{
+    
+    background-color: var(--banner-background);
+}
+.slider-list::-webkit-scrollbar-button{width: 20px;}
+.slider-list .slider-inner{
+    position: relative;
+    display: flex;
+    gap: 20px;
+}
+.movie-card{
+    min-width: 150px;
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Alinha os filhos no centro horizontalmente */
+    
+}
+.movie-card .card-banner{
+    width: 100%;
+}
+.card-wrapper{
+    display: flex;
+    text-align: center;
+    flex-direction: column;
+    align-items: center;
+}
+.card-wrapper :is(.title){
+    display: -webkit-box; 
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+    
+.card-wrapper .title{
+    font-family: 'Heebo-Regular', cursive;
+    padding-top: 10px;
+    font-size: 15px;
+    line-height: 20px;
+    font-weight: 200;
+    letter-spacing: 1px;
+    display: -webkit-box; 
+    width: 96%;
+    -webkit-line-clamp: 1;
+}
+
+
+
+
+
+
+
+
 
 
 
