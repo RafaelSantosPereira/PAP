@@ -251,13 +251,18 @@ li{list-style-type: none;}
     width: 100%;
     height: 100%;
     object-fit: cover;
+    margin-right: 0;
 }
+
 .title{
     font-size: var(--fs-title);
+    letter-spacing: 0.5px;
 }
 .heading{
     color: var(--white);
     font-size: var(--fs-heading); 
+
+
 }
 .title-large{
     font-size: var(--fs-title-lg);   
@@ -296,6 +301,7 @@ li{list-style-type: none;}
     height: calc(100vh - 96px);
     overflow-y: overlay;
     z-index: 1;
+    border-radius: var(--radius-24);
     border: 1px solid white;
 }
 .container::after{
@@ -311,15 +317,20 @@ li{list-style-type: none;}
 }
 .banner{
     position: relative;
-    height: 700px;
+    height: 500px;
     border-radius: var(--radius-24);
+    
     overflow: hidden;
+   width: 100%;
+
 }
 .banner-slider .slider-item{
     position: absolute;
     top: 0;
     left: 120%;
+
     width: 100%;
+
     height: 100%;
     background-color: var(--banner-background);
     opacity: 0;
@@ -332,6 +343,8 @@ li{list-style-type: none;}
     position: absolute;
     inset: 0;
     background-image: linear-gradient(var(--banner-overlay));
+
+
 
 }
 .banner-slider .active{
@@ -347,6 +360,7 @@ li{list-style-type: none;}
     z-index: 1;
     color: var(--text-color);
 }
+
 
 /* Este seletor ":is" combina elementos que têm a classe .banner 
 e também têm a classe .heading ou .banner-text. */
@@ -488,6 +502,7 @@ e também têm a classe .heading ou .banner-text. */
     width: 96%;
     -webkit-line-clamp: 1;
 }
+
 
 
 
