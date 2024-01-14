@@ -479,12 +479,11 @@ e também têm a classe .heading ou .banner-text. */
 }
     
 .card-wrapper .title{
-    font-family: 'Heebo-Regular', cursive;
+    font-family: 'Plus Jakarta Sans', sans-serif;
     padding-top: 10px;
     font-size: 15px;
     line-height: 20px;
-    font-weight: 200;
-    letter-spacing: 1px;
+    
     display: -webkit-box; 
     width: 96%;
     -webkit-line-clamp: 1;
