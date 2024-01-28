@@ -493,10 +493,9 @@ e também têm a classe .heading ou .banner-text. */
     gap: 20px;
 }
 .movie-card{
-    min-width: 150px;
+    min-width: 200px;
     width: 200px;
     display: flex;
-    flex-direction: column;
     align-items: center; /* Alinha os filhos no centro horizontalmente */
     
 }
