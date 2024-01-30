@@ -551,7 +551,9 @@ e também têm a classe .heading ou .banner-text. */
 
 .movie-detail .movie-poster{
     max-width: 300px;
+    min-width: 300px;
     width: 100%;
+    
 }
 
 
@@ -606,8 +608,8 @@ e também têm a classe .heading ou .banner-text. */
     display: flex;
     height:460px;
    
-    gap: 40px;
-    padding-right: 12%;
+    gap: 30px;
+  
     
    
    

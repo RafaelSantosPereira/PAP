@@ -1,5 +1,5 @@
-const isElectron = typeof require === 'function';
 
+const isElectron = typeof require === 'function';
 if (isElectron) {
   const { app, BrowserWindow, Menu} = require('electron');
   const path = require('path');
@@ -22,29 +22,31 @@ if (isElectron) {
   });
 } else {
   // Chame aqui a lógica específica do navegador
-  const api_key = 'a5d66f53cd4d37e6c21ce410122b6b32';
+  
+  const api_key = 'api_key=a5d66f53cd4d37e6c21ce410122b6b32';
   const ImageBaseURL = 'https://image.tmdb.org/t/p/w500';
   const base_url = 'https://api.themoviedb.org/3';
-  const api_url = base_url + '/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc&api_key=' + api_key;
+  const api_url = base_url + '/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc&' + api_key;
   const movies_div = document.getElementById('slider-inner');
-
+  
   getmovies(api_url);
 
   function getmovies(url) {
     fetch(url).then(res => res.json()).then(data => {
       showMovies(data.results);
+      console.log(data);
     });
   }
-
+  
   function showMovies(data) {
     movies_div.innerHTML = '';
     data.forEach(movie => {
-      const { title, poster_path, vote_average, release_date } = movie;
+      const { title, poster_path, vote_average, release_date,id } = movie;
       const year = release_date.substring(0, 4);
       const movieEl = document.createElement('div');
       movieEl.classList.add('movie-card');
       movieEl.innerHTML = `
-        <a href="./detail.html" class="card-btn"> 
+        <a href="./detail.html?movieId=${id}" class="card-btn"> 
           <figure class="poster-box card-banner">
             <img src="${ImageBaseURL + poster_path}" class="img-cover" alt="" >
           </figure>
@@ -63,7 +65,9 @@ if (isElectron) {
       movies_div.appendChild(movieEl);
     });
   }
+ 
 }
+
 
 // Função que contém a lógica específica do Electron
 
