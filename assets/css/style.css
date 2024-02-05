@@ -565,20 +565,34 @@ e também têm a classe .heading ou .banner-text. */
 }   
 
 .movie-detail .movie-poster{
-   height: 100%;
-   min-width: 350px;
-   max-width: 350px; 
-    
+   min-width: fit-content;
+   aspect-ratio:2/3; 
 }
 
 
 .movie-detail :is(.meta-list, .genre){
     color: var(--text-color);
 }
+.movie-detail{
+    display: flex;
+    height:550px;
+   
+    gap: 30px;
+
+}
 .detail-box{
-    max-height: 600px;
+    max-height: 100%;
     overflow-y: auto;
     width: 70vw;
+}
+.detail-content{
+
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    padding-right: 12px;
+    
+    
 }
 .detail-box:is(:hover, :focus-within)::-webkit-scrollbar-thumb{
     
@@ -620,21 +634,11 @@ e também têm a classe .heading ou .banner-text. */
     background-color: var(--white-alpha-20);
     border-radius: var(--radius-8);
 }
-.movie-detail{
-    display: flex;
-    height:530px;
-   
-    gap: 30px;
 
-}
 
-.detail-content{
 
-    display: flex;
-    flex-direction: column;
-    align-self: center;
-    padding: 12px;
-    
+.detail-box .slider-list{
+   margin-bottom: 0px;
 }
 .video-card{
     
@@ -643,7 +647,9 @@ e também têm a classe .heading ou .banner-text. */
     max-width: 500px;
     width: calc(100% - 40px);
 }
-
+.movie-list .also-like{
+    margin-top: 25px;
+}
 /*Movie List Page */
  
   .genre-list .title-wrapper{

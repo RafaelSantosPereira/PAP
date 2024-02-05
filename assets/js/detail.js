@@ -9,20 +9,22 @@ const credits_search = base_url + '/movie/' + movieId + '/credits?language=en-US
 const video_search = base_url + '/movie/' + movieId + '/videos?language=en-US&' + api_key
 const serie_search = base_url + '/tv/' + serieId + '?' + api_key;
 const serie_video_search = base_url + '/tv/'+ serieId + '/videos?language=en-US&'+ api_key;
+const serie_credits = base_url + '/tv/'+ serieId + '/credits?language=en-US&'+ api_key;
 
 console.log('ID do Filme:', movieId);
-const movies_div = document.getElementById('container');
+const content_div = document.getElementById('container');
 if(movieId){
-  getmovies(movie_search);
+  getContent(movie_search);
   getCredits(credits_search);
   getvideos(video_search)
 }
 else if(serieId){
-  getmovies(serie_search)
+  getContent(serie_search)
   getvideos(serie_video_search)
+  getCredits(serie_credits);
 }
 
-function getmovies(url) {
+function getContent(url) {
     fetch(url).then(res => res.json()).then(data => {
       
       showMovies(data);
@@ -110,44 +112,24 @@ function showMovies(movie) {
       
     }
     function showVideos(trailers){
-      const {results} = trailers
-      if (results && results.length >= 4){
-        const trailer_1 = `https://www.youtube.com/embed/${results[0].key}`
-        const trailer_2 = `https://www.youtube.com/embed/${results[1].key}`
-        const trailer_3 = `https://www.youtube.com/embed/${results[2].key}`
-        const trailer_4 = `https://www.youtube.com/embed/${results[3].key}`
-        const trailer1Element = document.getElementById('trailer-1');
-        const trailer2Element = document.getElementById('trailer-2');
-        const trailer3Element = document.getElementById('trailer-3');
-        const trailer4Element = document.getElementById('trailer-4');
-        trailer1Element.src =`${trailer_1}`;
-        trailer2Element.src = `${trailer_2}`;
-        trailer3Element.src = `${trailer_3}`;
-        trailer4Element.src = `${trailer_4}`;
+      
+      const { results } = trailers;
+      const videoInnerElement = document.getElementById('video-inner');
+      videoInnerElement.innerHTML = ''; // Limpa o conteúdo anterior
+      if(results.length == 0){
+        const label = document.getElementById('label-trailers');
+        label.innerHTML= ``;
       }
-      else if(results && results.length == 3){
-        const trailer_1 = `https://www.youtube.com/embed/${results[0].key}`
-        const trailer_2 = `https://www.youtube.com/embed/${results[1].key}`
-        const trailer_3 = `https://www.youtube.com/embed/${results[2].key}`
-        const trailer1Element = document.getElementById('trailer-1');
-        const trailer2Element = document.getElementById('trailer-2');
-        const trailer3Element = document.getElementById('trailer-3');
-        trailer1Element.src =`${trailer_1}`;
-        trailer2Element.src = `${trailer_2}`;
-        trailer3Element.src = `${trailer_3}`;
-      }
-      else if(results && results.length == 2){
-        const trailer_1 = `https://www.youtube.com/embed/${results[0].key}`
-        const trailer_2 = `https://www.youtube.com/embed/${results[1].key}`
-        const trailer1Element = document.getElementById('trailer-1');
-        const trailer2Element = document.getElementById('trailer-2');
-        trailer1Element.src =`${trailer_1}`;
-        trailer2Element.src = `${trailer_2}`;
-      }
-      else if(results && results.length == 1){
-        const trailer_1 = `https://www.youtube.com/embed/${results[0].key}`
-        const trailer1Element = document.getElementById('trailer-1');   
-        trailer1Element.src =`${trailer_1}`;
+      for (let i = 0; i < results.length; i++) {
+          const trailer = `https://www.youtube.com/embed/${results[i].key}`;
+          const videoCard = document.createElement('div');
+          videoCard.classList.add('video-card');
+  
+          videoCard.innerHTML = `
+              <iframe frameborder="0" allowfullscreen src="${trailer}"></iframe>
+          `;
+  
+          videoInnerElement.appendChild(videoCard);
       }
 
      
