@@ -105,6 +105,10 @@ body{
     line-height: 1.5;
     overflow: hidden;
 }
+iframe{
+    width: 100%;
+    height: 100%;
+}
 .background{background-color: var(--background);}
 
 
@@ -466,7 +470,10 @@ e também têm a classe .heading ou .banner-text. */
 /* MOVIE LIST */
 
 /* adiciona uma margin no final do bloco do elemento ou seja em baixo */
-.movie-list{ padding-block-start: 32px;  }
+.list{ 
+    padding-block-start: 32px; 
+
+}
 
 
 .title-wrapper{
@@ -478,6 +485,7 @@ e também têm a classe .heading ou .banner-text. */
 .slider-list{  
     padding-bottom: 12px;
     overflow-x: overlay;
+    margin-bottom: 40px;
 }
 .slider-list::-webkit-scrollbar-thumb{background-color: transparent;}
 
@@ -499,8 +507,14 @@ e também têm a classe .heading ou .banner-text. */
     align-items: center; /* Alinha os filhos no centro horizontalmente */
     
 }
+
 .movie-card .card-banner{
     width: 100%;
+}
+.movie-card .card-banner:hover{
+    border: 2px solid white;
+    transition: 50ms;
+    
 }
 .card-wrapper{
     display: flex;
@@ -550,9 +564,9 @@ e também têm a classe .heading ou .banner-text. */
 }   
 
 .movie-detail .movie-poster{
-    max-width: 300px;
-    min-width: 300px;
-    width: 100%;
+   height: 100%;
+   min-width: 350px;
+   max-width: 350px; 
     
 }
 
@@ -561,7 +575,7 @@ e também têm a classe .heading ou .banner-text. */
     color: var(--text-color);
 }
 .detail-box{
-    max-height: 460px;
+    max-height: 600px;
     overflow-y: auto;
     width: 70vw;
 }
@@ -607,7 +621,7 @@ e também têm a classe .heading ou .banner-text. */
 }
 .movie-detail{
     display: flex;
-    height:460px;
+    height:530px;
    
     gap: 30px;
 
