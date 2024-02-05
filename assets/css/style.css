@@ -637,7 +637,7 @@ e também têm a classe .heading ou .banner-text. */
     
 }
 .video-card{
-    background-image: url('../images/video-bg-icon.png');
+    
     aspect-ratio: 16/9;
     flex-shrink: 0;
     max-width: 500px;

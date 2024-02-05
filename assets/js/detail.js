@@ -8,6 +8,8 @@ const movie_search = base_url + '/movie/' + movieId + '?' + api_key;
 const credits_search = base_url + '/movie/' + movieId + '/credits?language=en-US&' + api_key
 const video_search = base_url + '/movie/' + movieId + '/videos?language=en-US&' + api_key
 const serie_search = base_url + '/tv/' + serieId + '?' + api_key;
+const serie_video_search = base_url + '/tv/'+ serieId + '/videos?language=en-US&'+ api_key;
+
 console.log('ID do Filme:', movieId);
 const movies_div = document.getElementById('container');
 if(movieId){
@@ -17,7 +19,7 @@ if(movieId){
 }
 else if(serieId){
   getmovies(serie_search)
-
+  getvideos(serie_video_search)
 }
 
 function getmovies(url) {
@@ -109,19 +111,44 @@ function showMovies(movie) {
     }
     function showVideos(trailers){
       const {results} = trailers
-      
-      const trailer_1 = `https://www.youtube.com/embed/${results[0].key}`
-      const trailer_2 = `https://www.youtube.com/embed/${results[1].key}`
-      const trailer_3 = `https://www.youtube.com/embed/${results[2].key}`
-      const trailer_4 = `https://www.youtube.com/embed/${results[3].key}`
+      if (results && results.length >= 4){
+        const trailer_1 = `https://www.youtube.com/embed/${results[0].key}`
+        const trailer_2 = `https://www.youtube.com/embed/${results[1].key}`
+        const trailer_3 = `https://www.youtube.com/embed/${results[2].key}`
+        const trailer_4 = `https://www.youtube.com/embed/${results[3].key}`
+        const trailer1Element = document.getElementById('trailer-1');
+        const trailer2Element = document.getElementById('trailer-2');
+        const trailer3Element = document.getElementById('trailer-3');
+        const trailer4Element = document.getElementById('trailer-4');
+        trailer1Element.src =`${trailer_1}`;
+        trailer2Element.src = `${trailer_2}`;
+        trailer3Element.src = `${trailer_3}`;
+        trailer4Element.src = `${trailer_4}`;
+      }
+      else if(results && results.length == 3){
+        const trailer_1 = `https://www.youtube.com/embed/${results[0].key}`
+        const trailer_2 = `https://www.youtube.com/embed/${results[1].key}`
+        const trailer_3 = `https://www.youtube.com/embed/${results[2].key}`
+        const trailer1Element = document.getElementById('trailer-1');
+        const trailer2Element = document.getElementById('trailer-2');
+        const trailer3Element = document.getElementById('trailer-3');
+        trailer1Element.src =`${trailer_1}`;
+        trailer2Element.src = `${trailer_2}`;
+        trailer3Element.src = `${trailer_3}`;
+      }
+      else if(results && results.length == 2){
+        const trailer_1 = `https://www.youtube.com/embed/${results[0].key}`
+        const trailer_2 = `https://www.youtube.com/embed/${results[1].key}`
+        const trailer1Element = document.getElementById('trailer-1');
+        const trailer2Element = document.getElementById('trailer-2');
+        trailer1Element.src =`${trailer_1}`;
+        trailer2Element.src = `${trailer_2}`;
+      }
+      else if(results && results.length == 1){
+        const trailer_1 = `https://www.youtube.com/embed/${results[0].key}`
+        const trailer1Element = document.getElementById('trailer-1');   
+        trailer1Element.src =`${trailer_1}`;
+      }
 
-      const trailer1Element = document.getElementById('trailer-1');
-      const trailer2Element = document.getElementById('trailer-2');
-      const trailer3Element = document.getElementById('trailer-3');
-      const trailer4Element = document.getElementById('trailer-4');
-
-      trailer1Element.src =`${trailer_1}`;
-      trailer2Element.src = `${trailer_2}`;
-      trailer3Element.src = `${trailer_3}`;
-      trailer4Element.src = `${trailer_4}`;
+     
     }
