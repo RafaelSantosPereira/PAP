@@ -27,7 +27,7 @@ if (isElectron) {
   const ImageBaseURL = 'https://image.tmdb.org/t/p/w500';
   const base_url = 'https://api.themoviedb.org/3';
   const popular_movies = base_url + '/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc&' + api_key;
-  const popular_series = base_url + '/tv/popular?language=en-US&page=1&' + api_key;
+  const popular_series = base_url + '/trending/tv/day?language=en-US&' + api_key;
 
   const movieID = 'movieId';
   const serieID = 'serieId';

@@ -514,7 +514,8 @@ e também têm a classe .heading ou .banner-text. */
 .movie-card .card-banner:hover{
     border: 2px solid white;
     transition: 50ms;
-    
+   
+   
 }
 .card-wrapper{
     display: flex;
