@@ -28,24 +28,35 @@ if (isElectron) {
   const base_url = 'https://api.themoviedb.org/3';
   const popular_movies = base_url + '/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc&' + api_key;
   const popular_series = base_url + '/trending/tv/day?language=en-US&' + api_key;
-
+  const topRatedMovies = base_url + "/movie/top_rated?language=en-US&page=1&" + api_key;
   const movieID = 'movieId';
   const serieID = 'serieId';
 
   const movies_div = document.getElementById('slider-inner');
   const list = document.getElementById('list');
-  const sliderlist = document.createElement('div');
-  const new_div = document.createElement('div');
-  const titleWrapper = document.createElement('div');
-  sliderlist.classList.add('slider-list');
-  new_div.classList.add('slider-inner');
-  titleWrapper.classList.add('title-wrapper')
   
+ 
+ 
+  
+  
+  
+  const { sliderlist, new_div, titleWrapper } = createElements();
+  const { sliderlist: sliderlist2, new_div: new_div2, titleWrapper: titleWrapper2 } = createElements();
 
-  
+  function createElements() {
+    const sliderlist = document.createElement('div');
+    const new_div = document.createElement('div');
+    const titleWrapper = document.createElement('div');
+    sliderlist.classList.add('slider-list');
+    new_div.classList.add('slider-inner');
+    titleWrapper.classList.add('title-wrapper');
+    
+    return { sliderlist, new_div, titleWrapper };
+  }
   
   getPopularMovies(popular_movies, movies_div, movieID);
   getPopularSeries(popular_series, new_div, serieID);
+  getTopRatedMovies(topRatedMovies, new_div2, movieID);
 
   function getPopularMovies(url, parentElement, ID) {
     movies_div.innerHTML = '';
@@ -56,10 +67,22 @@ if (isElectron) {
   }
   function getPopularSeries(url,parentElement, ID) {
     
+   
     list.appendChild(titleWrapper);
     titleWrapper.innerHTML = `<h3 class="title-large">Popular Series</h3>`
     list.appendChild(sliderlist);
     sliderlist.appendChild(new_div);
+    
+    fetch(url).then(res => res.json()).then(data => {
+      showContent(data.results,parentElement, ID)
+      console.log(data);
+    });
+  }
+  function getTopRatedMovies(url,parentElement, ID){
+    list.appendChild(titleWrapper2);
+    titleWrapper2.innerHTML = `<h3 class="title-large">Top Rated Movies</h3>`
+    list.appendChild(sliderlist2);
+    sliderlist2.appendChild(new_div2);
     
     fetch(url).then(res => res.json()).then(data => {
       showContent(data.results,parentElement, ID)

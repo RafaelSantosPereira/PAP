@@ -575,7 +575,7 @@ e também têm a classe .heading ou .banner-text. */
 }
 .movie-detail{
     display: flex;
-    height:550px;
+    height:520px;
    
     gap: 30px;
 

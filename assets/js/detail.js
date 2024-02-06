@@ -11,6 +11,7 @@ const serie_search = base_url + '/tv/' + serieId + '?' + api_key;
 const serie_video_search = base_url + '/tv/'+ serieId + '/videos?language=en-US&'+ api_key;
 const serie_credits = base_url + '/tv/'+ serieId + '/credits?language=en-US&'+ api_key;
 
+
 console.log('ID do Filme:', movieId);
 const content_div = document.getElementById('container');
 if(movieId){
