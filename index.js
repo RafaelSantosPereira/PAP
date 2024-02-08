@@ -29,12 +29,14 @@ if (isElectron) {
   const popular_movies = base_url + '/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc&' + api_key;
   const popular_series = base_url + '/trending/tv/day?language=en-US&' + api_key;
   const topRatedMovies = base_url + "/movie/top_rated?language=en-US&page=1&" + api_key;
+  const without_genres= '16';
+  const topRatedSeries = base_url + "/tv/top_rated?language=en-US&page=1&"+api_key
   const movieID = 'movieId';
   const serieID = 'serieId';
 
   const movies_div = document.getElementById('slider-inner');
   const list = document.getElementById('list');
-  
+  const test = "https://api.themoviedb.org/3/search/keyword?api_key=a5d66f53cd4d37e6c21ce410122b6b32&query=anime"
  
  
   
@@ -42,6 +44,7 @@ if (isElectron) {
   
   const { sliderlist, new_div, titleWrapper } = createElements();
   const { sliderlist: sliderlist2, new_div: new_div2, titleWrapper: titleWrapper2 } = createElements();
+  const { sliderlist: sliderlist3, new_div: new_div3, titleWrapper: titleWrapper3 } = createElements();
 
   function createElements() {
     const sliderlist = document.createElement('div');
@@ -57,6 +60,7 @@ if (isElectron) {
   getPopularMovies(popular_movies, movies_div, movieID);
   getPopularSeries(popular_series, new_div, serieID);
   getTopRatedMovies(topRatedMovies, new_div2, movieID);
+  getTopRatedSeries(topRatedSeries, new_div3, serieID);
 
   function getPopularMovies(url, parentElement, ID) {
     movies_div.innerHTML = '';
@@ -89,33 +93,50 @@ if (isElectron) {
       console.log(data);
     });
   }
+  function getTopRatedSeries(url,parentElement, ID){
+    list.appendChild(titleWrapper3);
+    titleWrapper3.innerHTML = `<h3 class="title-large">Top Rated Series</h3>`
+    list.appendChild(sliderlist3);
+    sliderlist3.appendChild(new_div3);
+    
+    fetch(url).then(res => res.json()).then(data => {
+      showContent(data.results,parentElement, ID)
+      console.log(data);
+    });
+  }
   function showContent(data, parentElement, ID) {
     
     data.forEach(movie => {
-      const { name, title, first_air_date, poster_path, vote_average, release_date,id } = movie;
-      const title_or_name = title|| name;
-      const year = release_date ? release_date.substring(0, 4) : first_air_date ? first_air_date.substring(0, 4) : '';
-      const rate = vote_average.toFixed(1);
-      const movieEl = document.createElement('div');
-      movieEl.classList.add('movie-card');
-      movieEl.innerHTML = `
-        <a href="./detail.html?${ID}=${id}" class="card-btn"> 
-          <figure class="poster-box card-banner">
-            <img src="${ImageBaseURL + poster_path}" class="img-cover" alt="" >
-          </figure>
-          <div class="card-wrapper">
-            <h4 class="title">${title_or_name}</h4>
-            <div class="meta-list">
-              <div class="meta-item">
-                <span class="span">${rate}</span>
-                <img src="./assets/images/star.png" width="20px" height="20px" loading="lazy" alt="rating">             
+      const { name, title, first_air_date, poster_path, vote_average, release_date,id, genre_ids } = movie;
+      if (genre_ids.includes(16)) {
+        return; // Se for, não faz nada e passa para o próximo filme
+      }
+      else{
+        const title_or_name = title|| name;
+        const year = release_date ? release_date.substring(0, 4) : first_air_date ? first_air_date.substring(0, 4) : '';
+        const rate = vote_average.toFixed(1);
+        const movieEl = document.createElement('div');
+        movieEl.classList.add('movie-card');
+        movieEl.innerHTML = `
+          <a href="./detail.html?${ID}=${id}" class="card-btn"> 
+            <figure class="poster-box card-banner">
+              <img src="${ImageBaseURL + poster_path}" class="img-cover" alt="" >
+            </figure>
+            <div class="card-wrapper">
+              <h4 class="title">${title_or_name}</h4>
+              <div class="meta-list">
+                <div class="meta-item">
+                  <span class="span">${rate}</span>
+                  <img src="./assets/images/star.png" width="20px" height="20px" loading="lazy" alt="rating">             
+                </div>
+                <div class="card-badge">${year}</div>           
               </div>
-              <div class="card-badge">${year}</div>           
             </div>
-          </div>
-        </a>
-      `;
-      parentElement.appendChild(movieEl);
+          </a>
+        `;
+        parentElement.appendChild(movieEl);
+      }
+     
      
     });
     
