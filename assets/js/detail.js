@@ -105,11 +105,19 @@ function showMovies(movie) {
           return; // Sai do forEach assim que encontrar o diretor
         }
       });
-      
       const StarringElement = document.getElementById('Starring');
       const DirectorElement = document.getElementById('director');
+      const directorLabelElement = document.getElementById('director-label');
       StarringElement.textContent = `${cast_name}`;
-      DirectorElement.textContent = `${director_name}`;
+
+      if(!director_name){
+        directorLabelElement.textContent = ``
+        DirectorElement.textContent = ``;
+      }
+      else{
+        DirectorElement.textContent = `${director_name}`;
+      }
+      
       
     }
     function showVideos(trailers){

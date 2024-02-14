@@ -17,6 +17,7 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
         <script src="./assets/js/global.js" defer></script>
         <script src="assets/js/detail.js" type="module"></script>
+        <script src="./assets/js/search.js"></script>
 
     </head>
         <body>
@@ -40,208 +41,211 @@
                     </div>
                                                
                 </header>
-            <!--Side bar-->
-            <nav class="side-bar" side-bar>
-                <ul>
-                    <li class="menu-item">
-                        <a href="./index.html">
-                            <span class="icon"><i class="bi bi-house"></i></span>
-                            <span class="txt-link">Home</span>
-                        </a>
-                    </li>
-                    <li class="menu-item">
-                        <a href="#">
-                            <span class="icon"><i class="bi bi-compass"></i></span>
-                            <span class="txt-link">Explore</span>
-                        </a>
-                    </li>
-                    <li class="menu-item">
-                        <a href="#">
-                            <span class="icon"><i class="bi bi-collection"></i></span>
-                            <span class="txt-link">Library</span>
-                        </a>
-                    </li>
-                    <li class="menu-item">
-                        <a href="#">
-                            <span class="icon"><i class="bi bi-gear"></i></span>
-                            <span class="txt-link">Defenitions</span>
-                        </a>
-                    </li> 
-                </ul>
-            </nav>
-
-            <!--content-->
-            <article class="container" id="container" page-content>
-                <!--banner-->
-                <div class="movie-detail" id="movie-detail">
-                    <div class="backdrop-image" id="backdrop-image" style="background-image:url(assets/images/slider-banner.jpg)"></div>
-
-                    <figure class="poster-box movie-poster">
-                        <img src="assets/images/slider-control.jpg" id="movie-poster" alt=">Puss in Boots: The Last Wish" class="img-cover">
-                    </figure>
-
-                    <div class="detail-box">
-                        <div class="detail-content">
-                            <h1 class="heading" id="movie-title">Puss in Boots: The Last Wish</h1>
-                            <div class="meta-list">
-                                <div class="meta-item">
-                                    <img src="assets/images/star.png" width="20px" alt="rating" >
-                                    <span class="span" id="movie-rating">8.4</span>
+                <main>
+                    <nav class="side-bar" side-bar>
+                        <ul>
+                            <li class="menu-item">
+                                <a href="./index.html">
+                                    <span class="icon"><i class="bi bi-house"></i></span>
+                                    <span class="txt-link">Home</span>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="#">
+                                    <span class="icon"><i class="bi bi-compass"></i></span>
+                                    <span class="txt-link">Explore</span>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="#">
+                                    <span class="icon"><i class="bi bi-collection"></i></span>
+                                    <span class="txt-link">Library</span>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="#">
+                                    <span class="icon"><i class="bi bi-gear"></i></span>
+                                    <span class="txt-link">Defenitions</span>
+                                </a>
+                            </li> 
+                        </ul>
+                    </nav>
+        
+                    <!--content-->
+                    <article class="container" id="container" page-content>
+                        <!--banner-->
+                        <div class="movie-detail" id="movie-detail">
+                            <div class="backdrop-image" id="backdrop-image" style="background-image:url(assets/images/slider-banner.jpg)"></div>
+        
+                            <figure class="poster-box movie-poster">
+                                <img src="assets/images/slider-control.jpg" id="movie-poster" alt=">Puss in Boots: The Last Wish" class="img-cover">
+                            </figure>
+        
+                            <div class="detail-box">
+                                <div class="detail-content">
+                                    <h1 class="heading" id="movie-title">Puss in Boots: The Last Wish</h1>
+                                    <div class="meta-list">
+                                        <div class="meta-item">
+                                            <img src="assets/images/star.png" width="20px" alt="rating" >
+                                            <span class="span" id="movie-rating">8.4</span>
+                                        </div>
+                                        <div class="separator"></div>
+                                        <div class="meta-item" id="duration-time">162m</div>
+                                        <div class="separator"></div>
+                                        <div class="meta-item" id="movie-year">2022</div>
+                                       
+                                    </div>
+                                    <P class="genre" id="movie-genres">Animation, Action, Adventure</P>
+        
+                                    <p class="overview" id="movie-overview">
+                                        Puss in Boots discovers that his passion for adventure has taken its toll: 
+                                        He has burned through eight of his nine lives, leaving him with only one life left. 
+                                        Puss sets out on an epic journey to find the mythical Last Wish and restore his nine lives.</p>
+        
+                                    <ul class="detail-list">
+                                        <div class="list-item">
+                                            <p class="list-name" >Starring</p>
+                                            <p id = "Starring">
+                                                Letitia Wright, Lupita Nyong'o, Danai Gurira, Winston Duke, Dominique Thorne, 
+                                                Tenoch Huerta Mejía, Angela Bassett, Florence Kasumba, Michaela Coel, Mabel Cadena
+                                            </p>
+                                        </div>
+                                        <div class="list-item">
+                                            <p class="list-name" id="director-label">Directed by </p>
+                                            <p id = "director">
+                                                Ryan Coogler
+                                            </p>
+                                            
+                                        </div>
+                                        
+                                    </ul>  
+                                    <div class="title-wrapper">
+                                        <h3 class="title-large" id="label-trailers">Trailers and Clips</h3>
+                                        
+                                    </div>
+                                    <div class="slider-list">
+                                        <div class="slider-inner" id="video-inner">
+                                            <div class="video-card" ><iframe id="trailer-1" frameborder="0" allowfullscreen ></iframe></div>                       
+                                        </div>
+                                    </div>                                            
                                 </div>
-                                <div class="separator"></div>
-                                <div class="meta-item" id="duration-time">162m</div>
-                                <div class="separator"></div>
-                                <div class="meta-item" id="movie-year">2022</div>
-                               
-                            </div>
-                            <P class="genre" id="movie-genres">Animation, Action, Adventure</P>
-
-                            <p class="overview" id="movie-overview">
-                                Puss in Boots discovers that his passion for adventure has taken its toll: 
-                                He has burned through eight of his nine lives, leaving him with only one life left. 
-                                Puss sets out on an epic journey to find the mythical Last Wish and restore his nine lives.</p>
-
-                            <ul class="detail-list">
-                                <div class="list-item">
-                                    <p class="list-name" >Starring</p>
-                                    <p id = "Starring">
-                                        Letitia Wright, Lupita Nyong'o, Danai Gurira, Winston Duke, Dominique Thorne, 
-                                        Tenoch Huerta Mejía, Angela Bassett, Florence Kasumba, Michaela Coel, Mabel Cadena
-                                    </p>
-                                </div>
-                                <div class="list-item">
-                                    <p class="list-name">Directed by </p>
-                                    <p id = "director">
-                                        Ryan Coogler
-                                    </p>
-                                    
-                                </div>
-                                
-                            </ul>  
+                            </div>                   
+                        </div>
+        
+        
+                        <section class="movie-list" aria-label="popular movies">
                             <div class="title-wrapper">
-                                <h3 class="title-large" id="label-trailers">Trailers and Clips</h3>
-                                
+                                <h3 class="title-large also-like">You May Also Like</h3>
                             </div>
                             <div class="slider-list">
-                                <div class="slider-inner" id="video-inner">
-                                    <div class="video-card" ><iframe id="trailer-1" frameborder="0" allowfullscreen ></iframe></div>                       
+                                <div class="slider-inner">
+        
+                                    <div class="movie-card">
+                                        <a href="./detail.html" class="card-btn"> <title></title>
+                                            <figure class="poster-box card-banner">
+                                                <img src="./assets/images/slider-control.jpg" class="img-cover" alt="" >
+                                            </figure>
+                                            <div class="card-wrapper">
+                                                <h4 class="title">Puss in Boots: the Last Wish</h4>
+                                                <div class="meta-list">
+                                
+                                                    <div class="meta-item">
+                                                        <span class="span">8.4</span>
+                                                        <img src="./assets/images/star.png" width="20px" height="20px" loading="lazy" alt="rating">             
+                                                    </div>
+                                                    <div class="card-badge">2022</div>           
+                                                </div>
+                                            </div>
+                                        </a>
+                                                                                                
+                                    </div>
+                                    <div class="movie-card">
+                                        <a href="./detail.html" class="card-btn"> <title></title>
+                                            <figure class="poster-box card-banner">
+                                                <img src="./assets/images/slider-control.jpg" class="img-cover" alt="" >
+                                            </figure>
+                                            <div class="card-wrapper">
+                                                <h4 class="title">Puss in Boots: the Last Wish</h4>
+                                                <div class="meta-list">
+                                
+                                                    <div class="meta-item">
+                                                        <span class="span">8.4</span>
+                                                        <img src="./assets/images/star.png" width="20px" height="20px" loading="lazy" alt="rating">             
+                                                    </div>
+                                                    <div class="card-badge">2022</div>           
+                                                </div>
+                                            </div>
+                                        </a>
+                                                                                                
+                                    </div>
+                                    <div class="movie-card">
+                                        <a href="./detail.html" class="card-btn"> <title></title>
+                                            <figure class="poster-box card-banner">
+                                                <img src="./assets/images/slider-control.jpg" class="img-cover" alt="" >
+                                            </figure>
+                                            <div class="card-wrapper">
+                                                <h4 class="title">Puss in Boots: the Last Wish</h4>
+                                                <div class="meta-list">
+                                
+                                                    <div class="meta-item">
+                                                        <span class="span">8.4</span>
+                                                        <img src="./assets/images/star.png" width="20px" height="20px" loading="lazy" alt="rating">             
+                                                    </div>
+                                                    <div class="card-badge">2022</div>           
+                                                </div>
+                                            </div>
+                                        </a>
+                                                                                                
+                                    </div>
+                                    <div class="movie-card">
+                                        <a href="./detail.html" class="card-btn"> <title></title>
+                                            <figure class="poster-box card-banner">
+                                                <img src="./assets/images/slider-control.jpg" class="img-cover" alt="" >
+                                            </figure>
+                                            <div class="card-wrapper">
+                                                <h4 class="title">Puss in Boots: the Last Wish</h4>
+                                                <div class="meta-list">
+                                
+                                                    <div class="meta-item">
+                                                        <span class="span">8.4</span>
+                                                        <img src="./assets/images/star.png" width="20px" height="20px" loading="lazy" alt="rating">             
+                                                    </div>
+                                                    <div class="card-badge">2022</div>           
+                                                </div>
+                                            </div>
+                                        </a>
+                                                                                                
+                                    </div>
+                                    <div class="movie-card">
+                                        <a href="./detail.html" class="card-btn"> <title></title>
+                                            <figure class="poster-box card-banner">
+                                                <img src="./assets/images/slider-control.jpg" class="img-cover" alt="" >
+                                            </figure>
+                                            <div class="card-wrapper">
+                                                <h4 class="title">Puss in Boots: the Last Wish</h4>
+                                                <div class="meta-list">
+                                
+                                                    <div class="meta-item">
+                                                        <span class="span">8.4</span>
+                                                        <img src="./assets/images/star.png" width="20px" height="20px" loading="lazy" alt="rating">             
+                                                    </div>
+                                                    <div class="card-badge">2022</div>           
+                                                </div>
+                                            </div>
+                                        </a>
+                                                                                                
+                                    </div>
+                                    
                                 </div>
-                            </div>                                            
-                        </div>
-                    </div>                   
-                </div>
-
-
-                <section class="movie-list" aria-label="popular movies">
-                    <div class="title-wrapper">
-                        <h3 class="title-large also-like">You May Also Like</h3>
-                    </div>
-                    <div class="slider-list">
-                        <div class="slider-inner">
-
-                            <div class="movie-card">
-                                <a href="./detail.html" class="card-btn"> <title></title>
-                                    <figure class="poster-box card-banner">
-                                        <img src="./assets/images/slider-control.jpg" class="img-cover" alt="" >
-                                    </figure>
-                                    <div class="card-wrapper">
-                                        <h4 class="title">Puss in Boots: the Last Wish</h4>
-                                        <div class="meta-list">
-                        
-                                            <div class="meta-item">
-                                                <span class="span">8.4</span>
-                                                <img src="./assets/images/star.png" width="20px" height="20px" loading="lazy" alt="rating">             
-                                            </div>
-                                            <div class="card-badge">2022</div>           
-                                        </div>
-                                    </div>
-                                </a>
-                                                                                        
                             </div>
-                            <div class="movie-card">
-                                <a href="./detail.html" class="card-btn"> <title></title>
-                                    <figure class="poster-box card-banner">
-                                        <img src="./assets/images/slider-control.jpg" class="img-cover" alt="" >
-                                    </figure>
-                                    <div class="card-wrapper">
-                                        <h4 class="title">Puss in Boots: the Last Wish</h4>
-                                        <div class="meta-list">
+                        </section>
+                        <br>
+                        <br><br><br><br>
                         
-                                            <div class="meta-item">
-                                                <span class="span">8.4</span>
-                                                <img src="./assets/images/star.png" width="20px" height="20px" loading="lazy" alt="rating">             
-                                            </div>
-                                            <div class="card-badge">2022</div>           
-                                        </div>
-                                    </div>
-                                </a>
-                                                                                        
-                            </div>
-                            <div class="movie-card">
-                                <a href="./detail.html" class="card-btn"> <title></title>
-                                    <figure class="poster-box card-banner">
-                                        <img src="./assets/images/slider-control.jpg" class="img-cover" alt="" >
-                                    </figure>
-                                    <div class="card-wrapper">
-                                        <h4 class="title">Puss in Boots: the Last Wish</h4>
-                                        <div class="meta-list">
-                        
-                                            <div class="meta-item">
-                                                <span class="span">8.4</span>
-                                                <img src="./assets/images/star.png" width="20px" height="20px" loading="lazy" alt="rating">             
-                                            </div>
-                                            <div class="card-badge">2022</div>           
-                                        </div>
-                                    </div>
-                                </a>
-                                                                                        
-                            </div>
-                            <div class="movie-card">
-                                <a href="./detail.html" class="card-btn"> <title></title>
-                                    <figure class="poster-box card-banner">
-                                        <img src="./assets/images/slider-control.jpg" class="img-cover" alt="" >
-                                    </figure>
-                                    <div class="card-wrapper">
-                                        <h4 class="title">Puss in Boots: the Last Wish</h4>
-                                        <div class="meta-list">
-                        
-                                            <div class="meta-item">
-                                                <span class="span">8.4</span>
-                                                <img src="./assets/images/star.png" width="20px" height="20px" loading="lazy" alt="rating">             
-                                            </div>
-                                            <div class="card-badge">2022</div>           
-                                        </div>
-                                    </div>
-                                </a>
-                                                                                        
-                            </div>
-                            <div class="movie-card">
-                                <a href="./detail.html" class="card-btn"> <title></title>
-                                    <figure class="poster-box card-banner">
-                                        <img src="./assets/images/slider-control.jpg" class="img-cover" alt="" >
-                                    </figure>
-                                    <div class="card-wrapper">
-                                        <h4 class="title">Puss in Boots: the Last Wish</h4>
-                                        <div class="meta-list">
-                        
-                                            <div class="meta-item">
-                                                <span class="span">8.4</span>
-                                                <img src="./assets/images/star.png" width="20px" height="20px" loading="lazy" alt="rating">             
-                                            </div>
-                                            <div class="card-badge">2022</div>           
-                                        </div>
-                                    </div>
-                                </a>
-                                                                                        
-                            </div>
-                            
-                        </div>
-                    </div>
-                </section>
-                <br>
-                <br><br><br><br>
-                
-            </article>
+                    </article>
+                </main>
+            <!--Side bar-->
+            
                 
         </body>
 </html>

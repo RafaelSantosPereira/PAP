@@ -1,52 +1,38 @@
 
-const isElectron = typeof require === 'function';
-if (isElectron) {
-  const { app, BrowserWindow, Menu} = require('electron');
-  const path = require('path');
+import { 
+  api_key,
+  ImageBaseURL,
+  base_url,
+  popular_movies,
+  popular_series,
+  topRatedMovies,
+  topRatedSeries,
+  searchMovie,
+  movieID,
+  serieID
+} from './assets/js/api.js';
 
-  let mainWindow;
-
-  app.on('ready', () => {
-    Menu.setApplicationMenu(null);
-    mainWindow = new BrowserWindow({
-      width: 1400,
-      height: 800,
-    });
-
-    const iconPath = path.join(__dirname, 'assets', 'images', 'logo.ico');
-    mainWindow.setIcon(iconPath);
-    mainWindow.loadURL(`file:${__dirname}/index.html`);
-
-    // Chame aqui a lógica específica do Electron, se necessário
-    
-  });
-} else {
-  // Chame aqui a lógica específica do navegador
+export{showContent};  
   
-  const api_key = 'api_key=a5d66f53cd4d37e6c21ce410122b6b32';
-  const ImageBaseURL = 'https://image.tmdb.org/t/p/w500';
-  const base_url = 'https://api.themoviedb.org/3';
-  const popular_movies = base_url + '/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc&' + api_key;
-  const popular_series = base_url + '/trending/tv/day?language=en-US&' + api_key;
-  const topRatedMovies = base_url + "/movie/top_rated?language=en-US&page=1&" + api_key;
-  const without_genres= '16';
-  const topRatedSeries = base_url + "/tv/top_rated?language=en-US&page=1&"+api_key
-  const movieID = 'movieId';
-  const serieID = 'serieId';
-
   const movies_div = document.getElementById('slider-inner');
   const list = document.getElementById('list');
-  const test = "https://api.themoviedb.org/3/search/keyword?api_key=a5d66f53cd4d37e6c21ce410122b6b32&query=anime"
- 
- 
+
+  const test = "https://api.themoviedb.org/3/discover/tv?page=1&with_watch_providers=8|9|2|10|337&watch_region=PT&sort_by=popularity.desc&api_key=a5d66f53cd4d37e6c21ce410122b6b32"
+  const test2 = "https://api.themoviedb.org/3/watch/providers/regions?language=en-US&api_key=a5d66f53cd4d37e6c21ce410122b6b32"
+  const provider="https://api.themoviedb.org/3/watch/providers/tv?language=en-US&"+ api_key
+  
   
   
   
   const { sliderlist, new_div, titleWrapper } = createElements();
   const { sliderlist: sliderlist2, new_div: new_div2, titleWrapper: titleWrapper2 } = createElements();
   const { sliderlist: sliderlist3, new_div: new_div3, titleWrapper: titleWrapper3 } = createElements();
+  const { sliderlist: sliderlist4, new_div: new_div4, titleWrapper: titleWrapper4 } = createElements();
+  const { sliderlist: sliderlist5, new_div: new_div5, titleWrapper: titleWrapper5 } = createElements();
+
 
   function createElements() {
+
     const sliderlist = document.createElement('div');
     const new_div = document.createElement('div');
     const titleWrapper = document.createElement('div');
@@ -56,62 +42,99 @@ if (isElectron) {
     
     return { sliderlist, new_div, titleWrapper };
   }
-  
-  getPopularMovies(popular_movies, movies_div, movieID);
-  getPopularSeries(popular_series, new_div, serieID);
-  getTopRatedMovies(topRatedMovies, new_div2, movieID);
-  getTopRatedSeries(topRatedSeries, new_div3, serieID);
 
-  function getPopularMovies(url, parentElement, ID) {
-    movies_div.innerHTML = '';
-    fetch(url).then(res => res.json()).then(data => {  
-      showContent(data.results,parentElement, ID);
-      console.log(data);
-    });
-  }
-  function getPopularSeries(url,parentElement, ID) {
+  movies_div.innerHTML = '';
+  getContent(popular_movies, movies_div, movieID);
+
+  list.appendChild(titleWrapper);
+  titleWrapper.innerHTML = `<h3 class="title-large">Popular Series</h3>`
+  list.appendChild(sliderlist);
+  sliderlist.appendChild(new_div);
+  getContent(popular_series, new_div, serieID);
+
+  list.appendChild(titleWrapper2);
+  titleWrapper2.innerHTML = `<h3 class="title-large">Top Rated Movies</h3>`
+  list.appendChild(sliderlist2);
+  sliderlist2.appendChild(new_div2);
+  getContent(topRatedMovies, new_div2, movieID);
+
+  list.appendChild(titleWrapper3);
+  titleWrapper3.innerHTML = `<h3 class="title-large">Top Rated Series</h3>`
+  list.appendChild(sliderlist3);
+  sliderlist3.appendChild(new_div3);
+  getContent(topRatedSeries, new_div3, serieID);
+
+
+
+  const searchField = document.querySelector(".search-field"); 
+  const searchBtn = document.querySelector(".search-btn");
+  const container = document.querySelector(".container");
+
+  searchBtn.addEventListener('click', searchHandler);
+
+document.addEventListener('keypress', function(event) {
     
-   
-    list.appendChild(titleWrapper);
-    titleWrapper.innerHTML = `<h3 class="title-large">Popular Series</h3>`
-    list.appendChild(sliderlist);
-    sliderlist.appendChild(new_div);
+    if (event.key === 'Enter') {
+        searchHandler();
+    }
+});
+
+function searchHandler() {
+    const urlSearchMovie = searchMovie + searchField.value; // Construir a URL aqui com o valor atual do campo de pesquisa
+    if (!searchField.value.trim()) {
+        return;
+    } else {
+        new_div4.innerHTML = "";
+        const list2 = document.createElement('div');
+        container.appendChild(list2);
+        list2.classList.add('list');
+        list2.appendChild(titleWrapper4);
+        list2.appendChild(sliderlist4);
+        sliderlist4.appendChild(new_div4);
+
+        // Limpa o conteúdo do contêiner antes de adicionar os novos resultados
+        container.innerHTML = '';
+        container.appendChild(list2);
+        getContent(urlSearchMovie, new_div4, movieID)
+        .then(Results => {
+            if (!Results) {
+               list2.innerHTML="";
+            }
+            titleWrapper4.innerHTML = `<h3 class="title-large">Movies</h3>`;
+        });
+        
+    }
+}
+
+function getContent(url, parentElement, ID) {
+
+  return fetch(url).then(res => res.json()).then(data => {
+          // Verifica se não há resultados
+          if (data.results.length === 0) {
+              return false; // Retorna true se não houver resultados
+          }
+
+          // Se houver resultados, chama a função showContent
+          showContent(data.results, parentElement, ID);
+          console.log(data);
+          return true; // Retorna false se houver resultados
+      })
+      .catch(error => {
+          console.error('Erro ao buscar dados:', error);
+          return false; // Retorna false em caso de erro
+      });
+}
+  
     
-    fetch(url).then(res => res.json()).then(data => {
-      showContent(data.results,parentElement, ID)
-      console.log(data);
-    });
-  }
-  function getTopRatedMovies(url,parentElement, ID){
-    list.appendChild(titleWrapper2);
-    titleWrapper2.innerHTML = `<h3 class="title-large">Top Rated Movies</h3>`
-    list.appendChild(sliderlist2);
-    sliderlist2.appendChild(new_div2);
     
-    fetch(url).then(res => res.json()).then(data => {
-      showContent(data.results,parentElement, ID)
-      console.log(data);
-    });
-  }
-  function getTopRatedSeries(url,parentElement, ID){
-    list.appendChild(titleWrapper3);
-    titleWrapper3.innerHTML = `<h3 class="title-large">Top Rated Series</h3>`
-    list.appendChild(sliderlist3);
-    sliderlist3.appendChild(new_div3);
     
-    fetch(url).then(res => res.json()).then(data => {
-      showContent(data.results,parentElement, ID)
-      console.log(data);
-    });
-  }
+  
+  
   function showContent(data, parentElement, ID) {
     
     data.forEach(movie => {
-      const { name, title, first_air_date, poster_path, vote_average, release_date,id, genre_ids } = movie;
-      if (genre_ids.includes(16)) {
-        return; // Se for, não faz nada e passa para o próximo filme
-      }
-      else{
+      const { name, title, first_air_date, poster_path, vote_average, release_date,id, genre_ids, original_language } = movie;
+   
         const title_or_name = title|| name;
         const year = release_date ? release_date.substring(0, 4) : first_air_date ? first_air_date.substring(0, 4) : '';
         const rate = vote_average.toFixed(1);
@@ -135,15 +158,14 @@ if (isElectron) {
           </a>
         `;
         parentElement.appendChild(movieEl);
-      }
+      
      
      
     });
-    
   }
- 
- 
-}
+  
+  
+
 
 
 
