@@ -482,10 +482,33 @@ e também têm a classe .heading ou .banner-text. */
     margin-block-end: 24px;
 }
 
-.slider-list{  
-    padding-bottom: 12px;
-    overflow-x: overlay;
-    margin-bottom: 40px;
+.slider-list{
+    position: relative;
+}
+
+.slider-list i {
+    font-size: 65px;
+    position: absolute;
+    cursor: pointer;
+    z-index: 3;
+    
+}
+
+.slider-list .left{
+    left: 10px;
+    top: 50%; /* Centraliza verticalmente */
+    transform: translateY(-50%);
+    
+}
+
+.slider-list .right {
+    right: 10px;
+    top: 50%; /* Centraliza verticalmente */
+    transform: translateY(-50%);
+}
+.slider-list i:hover{
+    font-size: 75px;
+    transition: var(--transition-short);
 }
 .slider-list::-webkit-scrollbar-thumb{background-color: transparent;}
 
@@ -496,7 +519,10 @@ e também têm a classe .heading ou .banner-text. */
 }
 .slider-list::-webkit-scrollbar{height: 15px;}
 .slider-list .slider-inner{
-    position: relative;
+    position: relative; /* Adiciona posicionamento relativo */
+    overflow-x: hidden;
+    margin-bottom: 65px;
+    scroll-behavior:smooth;
     display: flex;
     gap: 20px;
 }
