@@ -8,11 +8,11 @@ import {
   topRatedMovies,
   topRatedSeries,
   searchMovie,
+  searchSerie,
   movieID,
   serieID
 } from './assets/js/api.js';
 
-export{showContent};  
   
   const movies_div = document.getElementById('slider-inner');
   const slider = document.getElementById('slider-list');
@@ -87,33 +87,57 @@ document.addEventListener('keypress', function(event) {
 });
 
 function searchHandler() {
-    const urlSearchMovie = searchMovie + searchField.value; // Construir a URL aqui com o valor atual do campo de pesquisa
-    if (!searchField.value.trim()) {
-        return;
-    } else {
-        new_div4.innerHTML = "";
-        const list2 = document.createElement('div');
-        container.appendChild(list2);
-        list2.classList.add('list');
-        list2.appendChild(titleWrapper4);
-        list2.appendChild(sliderlist4);
-        sliderlist4.innerHTML = ` <i id="left" class="bi bi-chevron-left left"></i>
-                           <i id="right" class="bi bi-chevron-right right"></i>`
-        sliderlist4.appendChild(new_div4);
+  const urlSearchMovie = searchMovie + searchField.value; // Construir a URL aqui com o valor atual do campo de pesquisa para filmes
+  const urlSearchSerie = searchSerie + searchField.value; // Construir a URL aqui com o valor atual do campo de pesquisa para séries
+  if (!searchField.value.trim()) {
+      return;
+  } else {
+      new_div4.innerHTML = ""; // Limpa o conteúdo anterior para filmes
+      new_div5.innerHTML = ""; // Limpa o conteúdo anterior para séries
 
-        // Limpa o conteúdo do contêiner antes de adicionar os novos resultados
-        container.innerHTML = '';
-        container.appendChild(list2);
-        getContent(urlSearchMovie, new_div4,sliderlist4, movieID)
-        .then(Results => {
-            if (!Results) {
-               list2.innerHTML="";
-            }
-            titleWrapper4.innerHTML = `<h3 class="title-large">Movies</h3>`;
-        });
-        
-    }
+      const list2 = document.createElement('div');
+      container.appendChild(list2);
+      list2.classList.add('list');
+
+      // Adiciona título para filmes
+      list2.appendChild(titleWrapper4);
+      titleWrapper4.innerHTML = `<h3 class="title-large">Movies</h3>`;
+      // Adiciona slider para filmes
+      list2.appendChild(sliderlist4);
+      sliderlist4.innerHTML = ` <i id="left" class="bi bi-chevron-left left"></i>
+                         <i id="right" class="bi bi-chevron-right right"></i>`;
+      sliderlist4.appendChild(new_div4);
+
+      // Adiciona título para séries
+      list2.appendChild(titleWrapper5);
+      titleWrapper5.innerHTML = `<h3 class="title-large">Series</h3>`;
+      // Adiciona slider para séries
+      list2.appendChild(sliderlist5);
+      sliderlist5.innerHTML = ` <i id="left" class="bi bi-chevron-left left"></i>
+                         <i id="right" class="bi bi-chevron-right right"></i>`;
+      sliderlist5.appendChild(new_div5);
+
+      // Limpa o conteúdo do contêiner antes de adicionar os novos resultados
+      container.innerHTML = '';
+      container.appendChild(list2);
+
+      // Obtém conteúdo para filmes e séries
+      getContent(urlSearchMovie, new_div4, sliderlist4, movieID)
+          .then(movieResults => {
+              if (!movieResults) {
+                  list2.innerHTML = ""; // Limpa o conteúdo se não houver resultados para filmes
+              }
+          });
+
+      getContent(urlSearchSerie, new_div5, sliderlist5, serieID)
+          .then(serieResults => {
+              if (!serieResults) {
+                  list2.innerHTML = ""; // Limpa o conteúdo se não houver resultados para séries
+              }
+          });
+  }
 }
+
 
 function getContent(url, parentElement,Slider, ID) {
 

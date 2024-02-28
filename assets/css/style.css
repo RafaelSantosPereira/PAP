@@ -575,12 +575,12 @@ e também têm a classe .heading ou .banner-text. */
     top: 0;
     left: 0;
     width: 100%;
-    height: 500px;
+    height: 600px;
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
     background-image: linear-gradient(0deg(#e66465, #9198e5));
-    z-index: -1;
+    z-index:0;
     
 }
 .backdrop-image::before{
@@ -593,6 +593,7 @@ e também têm a classe .heading ou .banner-text. */
 .movie-detail .movie-poster{
    min-width: fit-content;
    aspect-ratio:2/3; 
+   z-index: 3;
 }
 
 
@@ -610,6 +611,7 @@ e também têm a classe .heading ou .banner-text. */
     max-height: 100%;
     overflow-y: auto;
     width: 70vw;
+    z-index: 3;
 }
 .detail-content{
 
@@ -617,6 +619,7 @@ e também têm a classe .heading ou .banner-text. */
     flex-direction: column;
     align-self: center;
     padding-right: 12px;
+    
     
     
 }
@@ -719,17 +722,27 @@ e também têm a classe .heading ou .banner-text. */
 
 
   
+.container-detail{
+    width: 100%;
+    position: relative;
+    padding-left: 70px;
+    padding-top: 70px;
+    padding-right: 50px;
+    overflow-y: overlay;
+    background-color: var(--surface);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+    
+    height: 100vh;
+    overflow-y: overlay;
+}
+.container-detail::after{
+    content: "";
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 150px;
+    background-image: linear-gradient(var(--bottom-overlay));
+    z-index: 1;
+    pointer-events: none;
+}
