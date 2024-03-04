@@ -7,8 +7,8 @@ const path = require('path');
   app.on('ready', () => {
     Menu.setApplicationMenu(null);
     mainWindow = new BrowserWindow({
-      width: 1400,
-      height: 800,
+      width: 1500,
+      height: 900,
       
     });
     

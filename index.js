@@ -88,7 +88,7 @@ document.addEventListener('keypress', function(event) {
 
 function searchHandler() {
   const urlSearchMovie = searchMovie + searchField.value; // Construir a URL aqui com o valor atual do campo de pesquisa para filmes
-  const urlSearchSerie = searchSerie + searchField.value; // Construir a URL aqui com o valor atual do campo de pesquisa para séries
+  const urlSearchSerie = searchSerie + searchField.value; 
   if (!searchField.value.trim()) {
       return;
   } else {
@@ -154,56 +154,86 @@ function getContent(url, parentElement,Slider, ID) {
             return true; 
       });
 }
-  
-    
-    
-    
-  
-  
-  function showContent(data, Slider, parentElement, ID) {
-      
-    data.forEach(movie => {
-      const { name, title, first_air_date, poster_path, vote_average, release_date,id, genre_ids, original_language } = movie;
-   
-        const title_or_name = title || name;
-        const year = release_date ? release_date.substring(0, 4) : first_air_date ? first_air_date.substring(0, 4) : '';
-        const rate = vote_average.toFixed(1);
-        const arrowLeft = Slider.querySelector(".bi-chevron-left");
-        const arrowRight = Slider.querySelector(".bi-chevron-right");
-        let width = 660; // Largura de um cartão, ajuste conforme necessário
 
-        arrowLeft.addEventListener("click", () => {
-            parentElement.scrollLeft -= width;
-        });
+function showContent(data, Slider, parentElement, ID) {
+    
+  data.forEach(movie => {
+    const { name, title, first_air_date, poster_path, vote_average, release_date,id, genre_ids, original_language } = movie;
+  
+      const title_or_name = title || name;
+      const year = release_date ? release_date.substring(0, 4) : first_air_date ? first_air_date.substring(0, 4) : '';
+      const rate = vote_average.toFixed(1);
+      const arrowLeft = Slider.querySelector(".bi-chevron-left");
+      const arrowRight = Slider.querySelector(".bi-chevron-right");
+      let width = 660; // Largura de um cartão, ajuste conforme necessário
 
-        arrowRight.addEventListener("click", () => {
-           parentElement.scrollLeft += width;
-        });
-        const movieEl = document.createElement('div');
-        movieEl.classList.add('movie-card');   
-        movieEl.innerHTML = `
-          <a href="./detail.html?${ID}=${id}" class="card-btn"> 
-            <figure class="poster-box card-banner">
-              <img src="${ImageBaseURL + poster_path}" class="img-cover" alt="" >
-            </figure>
-            <div class="card-wrapper">
-              <h4 class="title">${title_or_name}</h4>
-              <div class="meta-list">
-                <div class="meta-item">
-                  <span class="span">${rate}</span>
-                  <img src="./assets/images/star.png" width="20px" height="20px" loading="lazy" alt="rating">             
-                </div>
-                <div class="card-badge">${year}</div>           
+      arrowLeft.addEventListener("click", () => {
+          parentElement.scrollLeft -= width;
+      });
+
+      arrowRight.addEventListener("click", () => {
+          parentElement.scrollLeft += width;
+      });
+      const movieEl = document.createElement('div');
+      movieEl.classList.add('movie-card');   
+      movieEl.innerHTML = `
+        <a href="./detail.html?${ID}=${id}" class="card-btn"> 
+          <figure class="poster-box card-banner">
+            <img src="${ImageBaseURL + poster_path}" class="img-cover" alt="" >
+          </figure>
+          <div class="card-wrapper">
+            <h4 class="title">${title_or_name}</h4>
+            <div class="meta-list">
+              <div class="meta-item">
+                <span class="span">${rate}</span>
+                <img src="./assets/images/star.png" width="20px" height="20px" loading="lazy" alt="rating">             
               </div>
+              <div class="card-badge">${year}</div>           
             </div>
-          </a>
-        `;
-        parentElement.appendChild(movieEl);
-      
-     
-     
-    });
-  }
+          </div>
+        </a>
+      `;
+      parentElement.appendChild(movieEl);
+
+  });
+}
+document.addEventListener('DOMContentLoaded', function() {
+  // Todo o seu código do index.js aqui
+
+  // Definir control_inner e outros elementos
+  
+  BannerContent(popular_movies);
+});
+
+function BannerContent(url) {
+  return fetch(url)
+      .then(res => res.json())
+      .then(data => {
+          // Verifica se não há resultados
+          if (data.results.length === 0) {
+              return false;
+          }
+          const control_inner = document.querySelector('.control-inner');
+          control_inner.innerHTML = ``;
+          data.results.forEach(movie => {
+              const poster_path = movie.poster_path;
+              const poster = document.createElement('button');
+              poster.classList.add('poster-box', 'slider-item');
+              poster.innerHTML = `
+                  <img src="${ImageBaseURL + poster_path}" class="img-cover" loading="lazy" draggable="false">
+              `;
+              control_inner.appendChild(poster);
+          });
+
+          return true;
+      });
+}
+
+
+
+
+
+
 
 
  

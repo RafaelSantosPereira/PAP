@@ -341,7 +341,7 @@ li{list-style-type: none;}
 }
 .banner{
     position: relative;
-    height: 500px;
+    height: 550px;
     border-radius: var(--radius-24);
     
     overflow: hidden;
@@ -484,6 +484,7 @@ e também têm a classe .heading ou .banner-text. */
 
 .slider-list{
     position: relative;
+
 }
 
 .slider-list i {
@@ -510,14 +511,7 @@ e também têm a classe .heading ou .banner-text. */
     font-size: 75px;
     transition: var(--transition-short);
 }
-.slider-list::-webkit-scrollbar-thumb{background-color: transparent;}
 
-.slider-list:is(:hover, :focus-within)::-webkit-scrollbar-thumb{
-    
-    background-color: var(--banner-background);
-    border-radius: var(--radius-8);
-}
-.slider-list::-webkit-scrollbar{height: 15px;}
 .slider-list .slider-inner{
     position: relative; /* Adiciona posicionamento relativo */
     overflow-x: hidden;
@@ -526,6 +520,7 @@ e também têm a classe .heading ou .banner-text. */
     display: flex;
     gap: 20px;
 }
+
 .movie-card{
     min-width: 200px;
     width: 200px;
@@ -604,12 +599,13 @@ e também têm a classe .heading ou .banner-text. */
     display: flex;
     height:520px;
    
-    gap: 30px;
+    
 
 }
 .detail-box{
     max-height: 100%;
     overflow-y: auto;
+    margin-left: 30px;;
     width: 70vw;
     z-index: 3;
 }
@@ -669,6 +665,26 @@ e também têm a classe .heading ou .banner-text. */
 .detail-box .slider-list{
    margin-bottom: 0px;
 }
+.video-list{
+    position: relative;
+    overflow-x: overlay;
+}
+.video-list:is(:hover, :focus-within)::-webkit-scrollbar-thumb{
+    
+    background-color: var(--banner-background);
+    border-radius: var(--radius-8);
+
+}
+.video-list::-webkit-scrollbar {width: 15px;  }
+.video-list::-webkit-scrollbar-track-piece {color: transparent;}
+.video-inner{
+    position: relative; /* Adiciona posicionamento relativo */   
+    
+    scroll-behavior:smooth;
+    display: flex;
+    margin-bottom: 10px;
+    gap: 20px;
+}
 .video-card{
     
     aspect-ratio: 16/9;
@@ -676,8 +692,9 @@ e também têm a classe .heading ou .banner-text. */
     max-width: 500px;
     width: calc(100% - 40px);
 }
+
 .movie-list .also-like{
-    margin-top: 25px;
+    margin-top: 50px;
 }
 /*Movie List Page */
  
@@ -724,14 +741,15 @@ e também têm a classe .heading ou .banner-text. */
   
 .container-detail{
     width: 100%;
-    position: relative;
-    padding-left: 70px;
+    position: absolute;
+   
     padding-top: 70px;
+    padding-left: 70px;
     padding-right: 50px;
     overflow-y: overlay;
     background-color: var(--surface);
 
-    
+
     height: 100vh;
     overflow-y: overlay;
 }
@@ -745,4 +763,17 @@ e também têm a classe .heading ou .banner-text. */
     background-image: linear-gradient(var(--bottom-overlay));
     z-index: 1;
     pointer-events: none;
+}
+.detail-arrow{
+    position: absolute;
+    color: var(--text-color);
+    left: 8px;
+    top: 8px;
+    font-size: 50px;
+    z-index: 3;
+}
+.detail-arrow:hover{
+    color: white;
+    text-shadow: 0 0 0 2px var(--on-surface-variant);
+    transition: var(--transition-short);
 }
