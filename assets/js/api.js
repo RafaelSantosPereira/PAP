@@ -5,8 +5,9 @@ const popular_movies = base_url + '/discover/movie?include_adult=false&include_v
 const popular_series = base_url + '/discover/tv?language=en-US&sort_by=popularity.desc&page=1&watch_region=PT&with_watch_providers=2|119|8|9|10|337&' + api_key;
 const topRatedMovies = base_url + "/movie/top_rated?language=en-US&page=1&" + api_key;
 const topRatedSeries = base_url + "/tv/top_rated?language=en-US&page=1&" + api_key;
-const searchMovie = base_url + "/search/movie?language=en-US&"+ api_key + "&query=";
-const searchSerie = base_url + "/search/tv?language=en-US&"+ api_key + "&query="
+const searchMovie = base_url + "/search/movie?include_adult=false&language=en-US&page=1&"+ api_key + "&query=";
+const searchSerie = base_url + "/search/tv?include_adult=false&language=en-US&page=1&"+ api_key + "&query="
+const trendingMovies = base_url + "/trending/movie/day?language=en-US&"+api_key;
 const movieID = 'movieId';
 const serieID = 'serieId';
 
@@ -20,6 +21,7 @@ export {
     topRatedSeries,
     searchMovie,
     searchSerie,
+    trendingMovies,
     movieID,
     serieID
 };

@@ -18,7 +18,7 @@
     /**
     GRADIENT COLOR
     */
-    --banner-overlay: 90deg, hsl(220, 17%, 7%) 0%, hsla(220, 17%, 7%, 0.5) 100%;
+    --banner-overlay: 90deg, hsl(220, 17%, 7%) 0%, hsla(218, 12%, 17%, 0.5) 80%;
     --bottom-overlay: 180deg, hsla(250, 13%, 11%, 0), hsla(250, 13%, 11%, 1);
 
     /**
@@ -121,7 +121,7 @@ iframe{
     border-radius: var(--radius-8);
 }
 header{
-    height: 70px;
+    height: 90px;
    
 }
 .logo{
@@ -272,7 +272,9 @@ li{list-style-type: none;}
     height: 100%;
     object-fit: cover;
     margin-right: 0;
+  
 }
+
 
 .title{
     font-size: var(--fs-title);
@@ -335,17 +337,20 @@ li{list-style-type: none;}
     left: 0;
     width: 100%;
     height: 150px;
-    background-image: linear-gradient(var(--bottom-overlay));
+
     z-index: 1;
     pointer-events: none;
 }
+
 .banner{
     position: relative;
-    height: 550px;
+    align-self: center;
+    aspect-ratio: 16/9;
     border-radius: var(--radius-24);
-    
+    max-height: 70vh;
     overflow: hidden;
-   width: 100%;
+    width: 100%;
+    
 
 }
 .banner-slider .slider-item{
@@ -356,10 +361,10 @@ li{list-style-type: none;}
     width: 100%;
 
     height: 100%;
-    background-color: var(--banner-background);
+
     opacity: 0;
     visibility: hidden;
-    transition: opacity var(--transition-long);
+    
 }
 
 .banner-slider .slider-item::before{
@@ -423,12 +428,13 @@ e também têm a classe .heading ou .banner-text. */
 .slider-control{
     position: absolute;
     bottom: 20px;
-    left: 20px;
+    
     right: 0;
     border-radius: var(--radius-16) 0 0 var(--radius-16);
     user-select: none;
     padding: 4px 0 4px 4px;
     overflow-x: auto;
+    width: 30%;
 }
 .slider-control:is(:hover, :focus-within)::-webkit-scrollbar-thumb{
     
@@ -472,7 +478,7 @@ e também têm a classe .heading ou .banner-text. */
 /* adiciona uma margin no final do bloco do elemento ou seja em baixo */
 .list{ 
     padding-block-start: 32px; 
-
+    padding-bottom: 80px;
 }
 
 
