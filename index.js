@@ -14,7 +14,8 @@ import {
   serieID
 } from './assets/js/api.js';
 
-  
+export{showContent};
+
   const movies_div = document.getElementById('slider-inner');
   const slider = document.getElementById('slider-list');
   const list = document.getElementById('list');
@@ -44,33 +45,40 @@ import {
     
     return { sliderlist, new_div, titleWrapper };
   }
+  
+  
+  if (window.location.href.endsWith('/index.html')){
+    movies_div.innerHTML = '';
+    getContent(popular_movies, movies_div, slider,  movieID);
+  
+    list.appendChild(titleWrapper);
+    titleWrapper.innerHTML = `<h3 class="title-large">Popular Series</h3>`
+    list.appendChild(sliderlist);
+    sliderlist.innerHTML = ` <i id="left" class="bi bi-chevron-left left"></i>
+                             <i id="right" class="bi bi-chevron-right right"></i>`
+    sliderlist.appendChild(new_div);
+    getContent(popular_series, new_div,sliderlist, serieID);
+  
+    list.appendChild(titleWrapper2);
+    titleWrapper2.innerHTML = `<h3 class="title-large">Top Rated Movies</h3>`
+    list.appendChild(sliderlist2);
+    sliderlist2.innerHTML = ` <i id="left" class="bi bi-chevron-left left"></i>
+                             <i id="right" class="bi bi-chevron-right right"></i>`
+    sliderlist2.appendChild(new_div2);
+    getContent(topRatedMovies, new_div2,sliderlist2, movieID);
+  
+    list.appendChild(titleWrapper3);
+    titleWrapper3.innerHTML = `<h3 class="title-large">Top Rated Series</h3>`
+    list.appendChild(sliderlist3);
+    sliderlist3.innerHTML = ` <i id="left" class="bi bi-chevron-left left"></i>
+                             <i id="right" class="bi bi-chevron-right right"></i>`
+    sliderlist3.appendChild(new_div3);
+    getContent(topRatedSeries, new_div3,sliderlist3, serieID);
+  }
 
-  movies_div.innerHTML = '';
-  getContent(popular_movies, movies_div, slider,  movieID);
-
-  list.appendChild(titleWrapper);
-  titleWrapper.innerHTML = `<h3 class="title-large">Popular Series</h3>`
-  list.appendChild(sliderlist);
-  sliderlist.innerHTML = ` <i id="left" class="bi bi-chevron-left left"></i>
-                           <i id="right" class="bi bi-chevron-right right"></i>`
-  sliderlist.appendChild(new_div);
-  getContent(popular_series, new_div,sliderlist, serieID);
-
-  list.appendChild(titleWrapper2);
-  titleWrapper2.innerHTML = `<h3 class="title-large">Top Rated Movies</h3>`
-  list.appendChild(sliderlist2);
-  sliderlist2.innerHTML = ` <i id="left" class="bi bi-chevron-left left"></i>
-                           <i id="right" class="bi bi-chevron-right right"></i>`
-  sliderlist2.appendChild(new_div2);
-  getContent(topRatedMovies, new_div2,sliderlist2, movieID);
-
-  list.appendChild(titleWrapper3);
-  titleWrapper3.innerHTML = `<h3 class="title-large">Top Rated Series</h3>`
-  list.appendChild(sliderlist3);
-  sliderlist3.innerHTML = ` <i id="left" class="bi bi-chevron-left left"></i>
-                           <i id="right" class="bi bi-chevron-right right"></i>`
-  sliderlist3.appendChild(new_div3);
-  getContent(topRatedSeries, new_div3,sliderlist3, serieID);
+    
+  
+ 
 
 
 
@@ -78,83 +86,40 @@ import {
   const searchBtn = document.querySelector(".search-btn");
   const container = document.querySelector(".container");
 
-  searchBtn.addEventListener('click', searchHandler);
-
-document.addEventListener('keypress', function(event) {
-    
-    if (event.key === 'Enter') {
-        searchHandler();
-    }
-});
-
-function searchHandler() {
-  const urlSearchMovie = searchMovie + searchField.value; // Construir a URL aqui com o valor atual do campo de pesquisa para filmes
-  const urlSearchSerie = searchSerie + searchField.value; 
-  if (!searchField.value.trim()) {
-      return;
-  } else {
-      new_div4.innerHTML = ""; // Limpa o conteúdo anterior para filmes
-      new_div5.innerHTML = ""; // Limpa o conteúdo anterior para séries
-
-      const list2 = document.createElement('div');
-      container.appendChild(list2);
-      list2.classList.add('list');
-
-      // Adiciona título para filmes
-      list2.appendChild(titleWrapper4);
-      titleWrapper4.innerHTML = `<h3 class="title-large">Movies</h3>`;
-      // Adiciona slider para filmes
-      list2.appendChild(sliderlist4);
-      sliderlist4.innerHTML = ` <i id="left" class="bi bi-chevron-left left"></i>
-                         <i id="right" class="bi bi-chevron-right right"></i>`;
-      sliderlist4.appendChild(new_div4);
-
-      // Adiciona título para séries
-      list2.appendChild(titleWrapper5);
-      titleWrapper5.innerHTML = `<h3 class="title-large">Series</h3>`;
-      // Adiciona slider para séries
-      list2.appendChild(sliderlist5);
-      sliderlist5.innerHTML = ` <i id="left" class="bi bi-chevron-left left"></i>
-                         <i id="right" class="bi bi-chevron-right right"></i>`;
-      sliderlist5.appendChild(new_div5);
-
-      // Limpa o conteúdo do contêiner antes de adicionar os novos resultados
-      container.innerHTML = '';
-      container.appendChild(list2);
-
-      // Obtém conteúdo para filmes e séries
-      getContent(urlSearchMovie, new_div4, sliderlist4, movieID)
-          .then(movieResults => {
-              if (!movieResults) {
-                  list2.innerHTML = ""; // Limpa o conteúdo se não houver resultados para filmes
-              }
-          });
-
-      getContent(urlSearchSerie, new_div5, sliderlist5, serieID)
-          .then(serieResults => {
-              if (!serieResults) {
-                  list2.innerHTML = ""; // Limpa o conteúdo se não houver resultados para séries
-              }
-          });
+  searchBtn.addEventListener('click', redirect);
+  function redirect(){
+    var query = searchField.value;
+    if (!searchField.value.trim()) 
+    return;
+    var queryEncode = encodeURIComponent(query);
+    window.location.href = "search.html?search=" + queryEncode;
   }
-}
+  document.addEventListener('keypress', function(event) {
+      
+      if (event.key === 'Enter') {
+          redirect();
+      }
+  });
 
 
-function getContent(url, parentElement,Slider, ID) {
 
+export function getContent(url, parentElement, Slider, ID) {
   return fetch(url).then(res => res.json()).then(data => {
-          // Verifica se não há resultados
-          if (data.results.length === 0) {
-              return false; 
-          }
-          console.log(data)
-          // Se houver resultados, chama a função showContent
-            showContent(data.results,Slider, parentElement, ID);
-            
+    if (data.results.length === 0) {
+      return false; 
+  }
+  console.log(data)
+  // Se houver resultados, chama a função showContent
+    showContent(data.results,Slider, parentElement, ID);
+    
 
-            return true; 
-      });
+    return true; 
+      
+  });
 }
+
+
+  
 
 function showContent(data, Slider, parentElement, ID) {
     
@@ -168,8 +133,7 @@ function showContent(data, Slider, parentElement, ID) {
       const rate = vote_average.toFixed(1);
       const arrowLeft = Slider.querySelector(".bi-chevron-left");
       const arrowRight = Slider.querySelector(".bi-chevron-right");
-      let width = 660; // Largura de um cartão, ajuste conforme necessário
-
+      let width = 660; // Largura de 3 moviecard
       arrowLeft.addEventListener("click", () => {
           parentElement.scrollLeft -= width;
       });
@@ -274,7 +238,10 @@ function BannerContent(url) {
           
           return true;
       });
+      
 }
+
+
 
 
 

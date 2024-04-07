@@ -1,6 +1,9 @@
 const urlParams = new URLSearchParams(window.location.search);
 const movieId = urlParams.get('movieId');
 const serieId = urlParams.get('serieId')
+const strimgMovie = "/movie?"
+const strimgSerie = "/tv?"
+import { serieID, movieID } from "./api.js";
 const api_key = 'api_key=a5d66f53cd4d37e6c21ce410122b6b32';
 const ImageBaseURL = 'https://image.tmdb.org/t/p/w500';
 const base_url = 'https://api.themoviedb.org/3';
@@ -11,27 +14,85 @@ const serie_search = base_url + '/tv/' + serieId + '?' + api_key;
 const serie_video_search = base_url + '/tv/'+ serieId + '/videos?language=en-US&'+ api_key;
 const serie_credits = base_url + '/tv/'+ serieId + '/credits?language=en-US&'+ api_key;
 
+const movies_div = document.querySelector('.slider-inner');
+const slider = document.querySelector('.slider-list');
+const list = document.querySelector('.movie-list');
+
 
 console.log('ID do Filme:', movieId);
 const content_div = document.getElementById('container');
 if(movieId){
-  getContent(movie_search);
+  getContent(movie_search, slider, movies_div, movieID, strimgMovie);
+
   getCredits(credits_search);
   getvideos(video_search)
 }
 else if(serieId){
-  getContent(serie_search)
+  getContent(serie_search, slider, movies_div, serieID, strimgSerie);
   getvideos(serie_video_search)
   getCredits(serie_credits);
 }
 
-function getContent(url) {
+function getContent(url, Slider,parentElement, ID, stringQuery) {
     fetch(url).then(res => res.json()).then(data => {
-      
+    
       showMovies(data);
+      const genres_id = [];
+      data.genres.forEach(genre => {genres_id.push(genre.id);});
+      const discoverWithGenres = base_url + "/discover" + stringQuery + api_key + "&language=en-US&sort_by=popularity&page=1&with_genres=" + genres_id.join(',');
       console.log(data);
+
+      // Fazer fetch da URL discoverWithGenres para obter os dados dos filmes com base nos gêneros específicos
+      fetch(discoverWithGenres).then(res => res.json()).then(movieData => {
+          console.log(movieData); 
+          movies_div.innerHTML='';
+          showFds(movieData.results, Slider,parentElement, ID)
+      })
     });
   }
+function showFds(data, Slider, parentElement, ID){
+  data.forEach(movie => {
+    const { name, title, first_air_date, poster_path, vote_average, release_date,id, genre_ids, original_language } = movie;
+      if(!poster_path){
+        return
+      }
+      const title_or_name = title || name;
+      const year = release_date ? release_date.substring(0, 4) : first_air_date ? first_air_date.substring(0, 4) : '';
+      const rate = vote_average.toFixed(1);
+      const arrowLeft = Slider.querySelector(".bi-chevron-left");
+      const arrowRight = Slider.querySelector(".bi-chevron-right");
+      let width = 660; // Largura de um cartão, ajuste conforme necessário
+
+      arrowLeft.addEventListener("click", () => {
+          parentElement.scrollLeft -= width;
+      });
+
+      arrowRight.addEventListener("click", () => {
+          parentElement.scrollLeft += width;
+      });
+      const movieEl = document.createElement('div');
+      movieEl.classList.add('movie-card');   
+      movieEl.innerHTML = `
+        <a href="./detail.html?${ID}=${id}" class="card-btn"> 
+          <figure class="poster-box card-banner">
+            <img src="${ImageBaseURL + poster_path}" class="img-cover" alt="" >
+          </figure>
+          <div class="card-wrapper">
+            <h4 class="title">${title_or_name}</h4>
+            <div class="meta-list">
+              <div class="meta-item">
+                <span class="span">${rate}</span>
+                <img src="./assets/images/star.png" width="20px" height="20px" loading="lazy" alt="rating">             
+              </div>
+              <div class="card-badge">${year}</div>           
+            </div>
+          </div>
+        </a>
+      `;
+      parentElement.appendChild(movieEl);
+
+  });
+}
 function getCredits(url){
     fetch(url).then(res => res.json()).then(data => {
         
@@ -140,6 +201,5 @@ function showMovies(movie) {
   
           videoInnerElement.appendChild(videoCard);
       }
-
-     
     }
+    

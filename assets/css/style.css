@@ -488,12 +488,12 @@ e também têm a classe .heading ou .banner-text. */
     margin-block-end: 24px;
 }
 
-.slider-list{
+.slider-list, .slider-list2{
     position: relative;
 
 }
 
-.slider-list i {
+.slider-list i, .slider-list2 i {
     font-size: 65px;
     position: absolute;
     cursor: pointer;
@@ -501,24 +501,24 @@ e também têm a classe .heading ou .banner-text. */
     
 }
 
-.slider-list .left{
+.slider-list .left , .slider-list2 .left{
     left: 10px;
     top: 50%; /* Centraliza verticalmente */
     transform: translateY(-50%);
     
 }
 
-.slider-list .right {
+.slider-list .right , .slider-list2 .right{
     right: 10px;
     top: 50%; /* Centraliza verticalmente */
     transform: translateY(-50%);
 }
-.slider-list i:hover{
+.slider-list i:hover, .slider-list2 i:hover{
     font-size: 75px;
     transition: var(--transition-short);
 }
 
-.slider-list .slider-inner{
+.slider-list .slider-inner, .slider-list2 .slider-inner2{
     position: relative; /* Adiciona posicionamento relativo */
     overflow-x: hidden;
     margin-bottom: 65px;
@@ -603,7 +603,7 @@ e também têm a classe .heading ou .banner-text. */
 }
 .movie-detail{
     display: flex;
-    height:520px;
+    height:70vh;
    
     
 

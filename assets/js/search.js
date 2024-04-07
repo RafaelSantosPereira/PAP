@@ -1,41 +1,38 @@
-'use strict'
+const urlParams = new URLSearchParams(window.location.search);
+const search = urlParams.get('search');
+import { searchMovie, searchSerie, movieID,serieID } from "./api.js";
+import { getContent } from "../../index.js";
+const sliderInner = document.querySelector(".slider-inner")
+const sliderInner2 = document.querySelector(".slider-inner2")
+const sliderList = document.querySelector(".slider-list")
+const sliderList2 = document.querySelector(".slider-list2")
 
-import { fetchDataFromServer, searchContent } from "./api";
-import{ showContent} from "../../index"
+const list = document.querySelector(".list")
+document.addEventListener('DOMContentLoaded', function() {
+  searchContent();
+});
 
 
-export function search(){
-    const searchWrapper = document.querySelector("[search-wrapper]")
-    const searchField = document.querySelector("[search-field]")
-    const searchResultModal = document.createElement("div")
-    searchResultModal.classList.add("search-modal")
-    const gridlist = document.createElement("div")
-    gridlist.classList.add("grid-list");
-    document.querySelector("main").appendChild(searchResultModal);
-    let searchTimeout;
-    searchField.addEventListener("imput",function(){
-        if (!searchField.value.trim){
-            searchResultModal.classList.remove("active");
-            searchWrapper.classList.remove("searching");
-            clearTimeout(searchTimeout);
-            return;
-        }
-        searchWrapper.classList.add("searching");
-        clearTimeout(searchTimeout)
-        searchTimeout = setTimeout(function(){
-            fetchDataFromServer(searchContent + searchField.value , function({results:movieList}){
-                searchWrapper.classList.remove("searching")
-                searchResultModal.classList.add(active)
-                searchResultModal.innerHTML="";
-                searchResultModal.innerHTML = `
-                <p class="label">Results for</p>
-                <h1 class="heading">${searchField.value}</h1>
+function searchContent(){
+   var URLsearchMovie = searchMovie + search;
+   var URLsearchSerie = searchSerie + search;
+   
 
-                `;
-                searchResultModal.appendChild(gridlist);
-                showContent(searchContent + searchField.value, gridlist, "movieID")
-               
-            })
-        },500);
-    });
+   sliderInner.innerHTML = '';
+   sliderInner2.innerHTML = '';
+   getContent(URLsearchMovie, sliderInner, sliderList, movieID)
+   .then(movieResults => {
+       if (!movieResults) {
+           list.innerHTML = ""; // Limpa o conteúdo se não houver resultados para filmes
+       }
+   });
+   getContent(URLsearchSerie, sliderInner2, sliderList2, serieID)
+   .then(movieResults => {
+       if (!movieResults) {
+           list.innerHTML = ""; // Limpa o conteúdo se não houver resultados para filmes
+       }
+   });
+
+
+    
 }
