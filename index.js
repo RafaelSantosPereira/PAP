@@ -84,7 +84,6 @@ export{showContent};
 
   const searchField = document.querySelector(".search-field"); 
   const searchBtn = document.querySelector(".search-btn");
-  const container = document.querySelector(".container");
 
   searchBtn.addEventListener('click', redirect);
   function redirect(){
@@ -175,7 +174,8 @@ function BannerContent(url) {
           if (data.results.length === 0) {
               return false;
           }
-         
+
+
           const bannerImg = document.getElementById('banner-img')
           const bannerTitle = document.getElementById('banner-title')
           const bannerYear = document.getElementById('banner-date')
@@ -183,8 +183,8 @@ function BannerContent(url) {
           const bannerGenre = document.getElementById('banner-genre')
           bannerImg.src = "https://image.tmdb.org/t/p/original/" + data.results[0].backdrop_path;
           bannerTitle.textContent= `${data.results[0].title}`
-          bannerYear.textContent= `${data.results[0].release_date}`
-          bannerRate.textContent= `${data.results[0].vote_average}`
+          bannerYear.textContent= `${data.results[0].release_date.substring(0, 4)}`
+          bannerRate.textContent= `${data.results[0].vote_average.toFixed(1)}`
           bannerGenre.textContent= ``
 
           const control_inner = document.querySelector('.control-inner');
@@ -192,49 +192,54 @@ function BannerContent(url) {
          
 
           control_inner.innerHTML = ``;
-          data.results.forEach(movie => {
-            const { title, poster_path, vote_average, release_date,id, overview, backdrop_path} = movie;
-              const poster = document.createElement('button');
-              poster.classList.add('poster-box', 'slider-item');
-              poster.innerHTML = `
-                  <img src="${ImageBaseURL + poster_path}" class="img-cover" loading="lazy" draggable="false">
-              `;
-              control_inner.appendChild(poster);
-              
-            
-          
-              poster.addEventListener('click',function(){
+          data.results.forEach((movie, index) => {
+            const { title, poster_path, vote_average, release_date, id, overview, backdrop_path } = movie;
+            const year = release_date.substring(0, 4)
+            const rate = vote_average.toFixed(1);
+            const poster = document.createElement('button');
+            poster.classList.add('poster-box', 'slider-item');
+        
+            if (index === 0) {
+                poster.classList.add('active');
+            }
+        
+            poster.innerHTML = `
+                <img src="${ImageBaseURL + poster_path}" class="img-cover" loading="lazy" draggable="false">
+            `;
+            control_inner.appendChild(poster);
+        
+            poster.addEventListener('click', function () {
                 document.querySelectorAll('.poster-box.active').forEach(poster => {
-                  poster.classList.remove('active');
+                    poster.classList.remove('active');
                 });
                 poster.classList.add('active')
                 const img = "https://image.tmdb.org/t/p/original/" + backdrop_path;
                 bannerSlider.innerHTML = '';
-
-                    // Adiciona novamente todos os elementos necessários ao banner-slider
-                    const sliderItem = document.createElement('div');
-                    sliderItem.classList.add('slider-item', 'active');
-                    sliderItem.innerHTML = `
-                        <img src="${img}" alt="${title}"
-                            class="img-cover bannerRatio" id="banner-img" loading="eager">
-                        <div class="banner-content">
-                            <h2 class="heading">${title}</h2>
-                            <div class="meta-list">
-                                <div class="meta-item">${release_date}</div>
-                                <div class="meta-item card-badge">${vote_average}</div>                                    
-                            </div>
-                            <p class="genre"></p>
-                            <p class="banner-text">${overview}</p>
-                            <a href="./detail.html?movieId=${id}" class="btn">
-                                <img src="./assets/images/play_circle.png" width="24" height="24" alt="play-circle" aria-hidden="true">
-                                <span class="span">Watch now</span>
-                            </a>
+        
+                // Adiciona novamente todos os elementos necessários ao banner-slider
+                const sliderItem = document.createElement('div');
+                sliderItem.classList.add('slider-item', 'active');
+                sliderItem.innerHTML = `
+                    <img src="${img}" alt="${title}"
+                        class="img-cover bannerRatio" id="banner-img" loading="eager">
+                    <div class="banner-content">
+                        <h2 class="heading">${title}</h2>
+                        <div class="meta-list">
+                            <div class="meta-item">${year}</div>
+                            <div class="meta-item card-badge">${rate}</div>                                    
                         </div>
-                    `;
-                    bannerSlider.appendChild(sliderItem);
-                
-              })
-          });
+                        <p class="genre"></p>
+                        <p class="banner-text">${overview}</p>
+                        <a href="./detail.html?movieId=${id}" class="btn">
+                            <img src="./assets/images/play_circle.png" width="24" height="24" alt="play-circle" aria-hidden="true">
+                            <span class="span">Watch now</span>
+                        </a>
+                    </div>
+                `;
+                bannerSlider.appendChild(sliderItem);
+        
+            })
+        });
           
           return true;
       });
