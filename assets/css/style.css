@@ -109,6 +109,7 @@ iframe{
     width: 100%;
     height: 100%;
 }
+
 .background{background-color: var(--background);}
 
 
@@ -240,7 +241,8 @@ nav.side-bar{
     flex-direction:column ;   
     padding: 25px 0px 10px 10px; 
     text-align: center;
-    position: absolute;   
+    margin-right: 10px;
+    
 }
 .menu-item .icon{font-size: 25px;
 }
@@ -316,10 +318,9 @@ li{list-style-type: none;}
     transition: var(--transition-short);
 }
 .container{
-    position: relative;
+    flex: 1; /* Ajusta dinamicamente para ocupar o espaço restante */
     background-color: var(--surface);
     color: var(--on-surface);
-    margin-left: 87px;
     height: 100vh;
     overflow-y: overlay;
     z-index: 1; 
@@ -476,9 +477,31 @@ e também têm a classe .heading ou .banner-text. */
 /* MOVIE LIST */
 
 /* adiciona uma margin no final do bloco do elemento ou seja em baixo */
+.cont{
+    display: flex;
+}
 .list{ 
     padding-block-start: 32px; 
     padding-bottom: 80px;
+}
+.genre-bt{
+    background-color: var(--background);
+    color: var(--on-surface-variant);
+    
+}
+.genre-bt:hover{
+    color: var(--on-surface);
+    transition: var(--transition-short);
+}
+.genre-sidebar{
+    width: 200px;
+    height: 100%;
+    display: flex;
+    flex-direction:column ;   
+    padding: 25px 0px 10px 35px; 
+    gap: 15px;
+    
+     
 }
 
 
@@ -487,7 +510,27 @@ e também têm a classe .heading ou .banner-text. */
     direita ou á esquerda dependendo de como é lida a lingua*/
     margin-block-end: 24px;
 }
-
+.select{
+    appearance: none; /* Remove estilos padrão do navegador */
+    -webkit-appearance: none; /* Para navegadores WebKit */
+    -moz-appearance: none; /* Para navegadores baseados em Mozilla */
+    background-color: var(--background);
+    border-radius: var(--radius-8);
+    width: 120px;
+    height: 40px;
+    border: 1px solid var(--on-surface-variant);
+    font-family: var(--ff-dm-sans);
+    margin-bottom: 20px;
+    transition: var(--transition-short);
+    color: var(--on-surface);
+    background-image: url("data:image/svg+xml;utf8,<svg fill='white' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
+    background-repeat: no-repeat;
+    background-position-x: 100%;
+    background-position-y: 5px;
+    padding-left: 10px;
+    font-size: large;
+    margin-right: 20px;
+}
 .slider-list, .slider-list2{
     position: relative;
 
