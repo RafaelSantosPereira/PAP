@@ -1,7 +1,7 @@
 const urlParams = new URLSearchParams(window.location.search);
 const search = urlParams.get('search');
 import { searchMovie, searchSerie, movieID,serieID } from "./api.js";
-import { getContent } from "../../index.js";
+import { getContent, ScrollSlider } from "../../index.js";
 const sliderInner = document.querySelector(".slider-inner")
 const sliderInner2 = document.querySelector(".slider-inner2")
 const sliderList = document.querySelector(".slider-list")
@@ -20,19 +20,21 @@ function searchContent(){
 
    sliderInner.innerHTML = '';
    sliderInner2.innerHTML = '';
-   getContent(URLsearchMovie, sliderInner, sliderList, movieID)
+   getContent(URLsearchMovie, sliderInner, movieID)
    .then(movieResults => {
        if (!movieResults) {
            list.innerHTML = ""; // Limpa o conteúdo se não houver resultados para filmes
        }
    });
-   getContent(URLsearchSerie, sliderInner2, sliderList2, serieID)
+   ScrollSlider(sliderList, sliderInner)
+   getContent(URLsearchSerie, sliderInner2, serieID)
    .then(movieResults => {
        if (!movieResults) {
            list.innerHTML = ""; // Limpa o conteúdo se não houver resultados para filmes
        }
    });
-
+   ScrollSlider(sliderList2, sliderInner2)
+   
 
     
 }

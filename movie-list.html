@@ -15,7 +15,7 @@
         <script src="https://c.webfontfree.com/c.js?f=Heebo-Regular" type="text/javascript"></script>
         <link rel="stylesheet" href="./assets/css/style.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
-        <script src="./assets/js/global.js" defer></script>
+        <script src="assets/js/movie-list.js" type="module"></script>
         
         
         <script src="./assets/js/movie-list.js" type="module"></script>
@@ -67,18 +67,18 @@
     
     
                         <section class="movie-list genre-list" >
-                            <select class="select">
-                                <option value="Movies">Movie</option>
-                                <option value="Series">Series</option>
-                                <option value="Anime">Anime</option>
+                            <select class="select" id="type">
+                                <option value="movies"selected>Movie</option>
+                                <option value="series">Series</option>
+                                <option value="anime">Anime</option>
                             </select>
-                            <select class="select">
-                                <option value="popular">Popular</option>
-                                <option value="Top Rating">Top Rating</option>
+                            <select class="select" id="sort">
+                                <option value="popularity.desc"selected>Popular</option>
+                                <option value="vote_average.desc">Top Rating</option>
                                 <option value="new">New</option>
                             </select>
-                            <select class="select">
-                                <option value="all years">All Years</option>
+                            <select class="select" id="year">
+                                <option value="all years"selected>All Years</option>
                                 <option value="2024">2023</option>
                                 <option value="2024">2023</option>
                                 <option value="2023">2023</option>
@@ -191,7 +191,7 @@
                                     </div>
                                     
                             </div>
-                            <button class="btn load-more">Load More</button>
+                            
                         </section>
     
                         

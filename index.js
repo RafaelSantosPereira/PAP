@@ -3,7 +3,7 @@ import {
   api_key,
   ImageBaseURL,
   base_url,
-  popular_movies,
+  discover_movies,
   popular_series,
   topRatedMovies,
   topRatedSeries,
@@ -49,7 +49,8 @@ export{showContent};
   
   if (window.location.href.endsWith('/index.html')){
     movies_div.innerHTML = '';
-    getContent(popular_movies, movies_div, slider,  movieID);
+    getContent(discover_movies, movies_div, movieID);
+    ScrollSlider(slider,movies_div);
   
     list.appendChild(titleWrapper);
     titleWrapper.innerHTML = `<h3 class="title-large">Popular Series</h3>`
@@ -57,7 +58,8 @@ export{showContent};
     sliderlist.innerHTML = ` <i id="left" class="bi bi-chevron-left left"></i>
                              <i id="right" class="bi bi-chevron-right right"></i>`
     sliderlist.appendChild(new_div);
-    getContent(popular_series, new_div,sliderlist, serieID);
+    getContent(popular_series, new_div, serieID);
+    ScrollSlider(sliderlist, new_div);
   
     list.appendChild(titleWrapper2);
     titleWrapper2.innerHTML = `<h3 class="title-large">Top Rated Movies</h3>`
@@ -65,7 +67,8 @@ export{showContent};
     sliderlist2.innerHTML = ` <i id="left" class="bi bi-chevron-left left"></i>
                              <i id="right" class="bi bi-chevron-right right"></i>`
     sliderlist2.appendChild(new_div2);
-    getContent(topRatedMovies, new_div2,sliderlist2, movieID);
+    getContent(topRatedMovies, new_div2, movieID);
+    ScrollSlider(sliderlist2, new_div2)
   
     list.appendChild(titleWrapper3);
     titleWrapper3.innerHTML = `<h3 class="title-large">Top Rated Series</h3>`
@@ -73,11 +76,23 @@ export{showContent};
     sliderlist3.innerHTML = ` <i id="left" class="bi bi-chevron-left left"></i>
                              <i id="right" class="bi bi-chevron-right right"></i>`
     sliderlist3.appendChild(new_div3);
-    getContent(topRatedSeries, new_div3,sliderlist3, serieID);
+    getContent(topRatedSeries, new_div3, serieID);
+    ScrollSlider(sliderlist3, new_div3)
   }
 
     
-  
+  export function ScrollSlider(Slider, parentElement){
+    const arrowLeft = Slider.querySelector(".bi-chevron-left");
+    const arrowRight = Slider.querySelector(".bi-chevron-right");
+    let width = 660; // Largura de 3 moviecard
+    arrowLeft.addEventListener("click", () => {
+        parentElement.scrollLeft -= width;
+    });
+
+    arrowRight.addEventListener("click", () => {
+        parentElement.scrollLeft += width;
+    });
+  }
  
 
 
@@ -102,14 +117,14 @@ export{showContent};
 
 
 
-export function getContent(url, parentElement, Slider, ID) {
+export function getContent(url, parentElement, ID) {
   return fetch(url).then(res => res.json()).then(data => {
     if (data.results.length === 0) {
       return false; 
   }
   console.log(data)
   // Se houver resultados, chama a função showContent
-    showContent(data.results,Slider, parentElement, ID);
+    showContent(data.results, parentElement, ID);
     
 
     return true; 
@@ -120,7 +135,7 @@ export function getContent(url, parentElement, Slider, ID) {
 
   
 
-function showContent(data, Slider, parentElement, ID) {
+function showContent(data,parentElement, ID) {
     
   data.forEach(movie => {
     const { name, title, first_air_date, poster_path, vote_average, release_date,id, genre_ids, original_language } = movie;
@@ -130,16 +145,7 @@ function showContent(data, Slider, parentElement, ID) {
       const title_or_name = title || name;
       const year = release_date ? release_date.substring(0, 4) : first_air_date ? first_air_date.substring(0, 4) : '';
       const rate = vote_average.toFixed(1);
-      const arrowLeft = Slider.querySelector(".bi-chevron-left");
-      const arrowRight = Slider.querySelector(".bi-chevron-right");
-      let width = 660; // Largura de 3 moviecard
-      arrowLeft.addEventListener("click", () => {
-          parentElement.scrollLeft -= width;
-      });
-
-      arrowRight.addEventListener("click", () => {
-          parentElement.scrollLeft += width;
-      });
+      
       const movieEl = document.createElement('div');
       movieEl.classList.add('movie-card');   
       movieEl.innerHTML = `
