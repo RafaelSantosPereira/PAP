@@ -4,7 +4,7 @@ import {
   ImageBaseURL,
   base_url,
   discover_movies,
-  popular_series,
+  discover_series,
   topRatedMovies,
   topRatedSeries,
   searchMovie,
@@ -13,7 +13,7 @@ import {
   movieID,
   serieID
 } from './assets/js/api.js';
-
+let sess = "";
 export{showContent};
 
   const movies_div = document.getElementById('slider-inner');
@@ -58,7 +58,7 @@ export{showContent};
     sliderlist.innerHTML = ` <i id="left" class="bi bi-chevron-left left"></i>
                              <i id="right" class="bi bi-chevron-right right"></i>`
     sliderlist.appendChild(new_div);
-    getContent(popular_series, new_div, serieID);
+    getContent(discover_series, new_div, serieID);
     ScrollSlider(sliderlist, new_div);
   
     list.appendChild(titleWrapper2);
@@ -133,7 +133,7 @@ export function getContent(url, parentElement, ID) {
 }
 
 
-  
+
 
 function showContent(data,parentElement, ID) {
     
@@ -171,8 +171,17 @@ function showContent(data,parentElement, ID) {
 }
 document.addEventListener('DOMContentLoaded', function() {
   
-  BannerContent(trendingMovies);
+    BannerContent(trendingMovies);
+
+    
+    const listLink = document.querySelector('.base-list');
+    listLink.addEventListener('click', function(){
+      localStorage.clear();
+      localStorage.setItem('CurrentURL', discover_movies);
+  })  
 });
+
+
 
 function BannerContent(url) {
   return fetch(url).then(res => res.json()).then(data => {
@@ -187,12 +196,15 @@ function BannerContent(url) {
           const bannerYear = document.getElementById('banner-date')
           const bannerRate = document.getElementById('banner-rate')
           const bannerGenre = document.getElementById('banner-genre')
+          const watchBtn = document.getElementById('watchNowBtn')
           bannerImg.src = "https://image.tmdb.org/t/p/original/" + data.results[0].backdrop_path;
           bannerTitle.textContent= `${data.results[0].title}`
           bannerYear.textContent= `${data.results[0].release_date.substring(0, 4)}`
           bannerRate.textContent= `${data.results[0].vote_average.toFixed(1)}`
           bannerGenre.textContent= ``
-
+          watchBtn.href = `./detail.html?movieId=${data.results[0].id}`; 
+        
+          
           const control_inner = document.querySelector('.control-inner');
           let bannerSlider = document.querySelector(".banner-slider")
          
@@ -246,9 +258,36 @@ function BannerContent(url) {
         
             })
         });
-          
-          return true;
+               
+        let isDragging = false, startX, scrollLeft;
+
+        const dragStart = (e) => {
+          isDragging = true;
+          startX = e.pageX - control_inner.offsetLeft; // Calcula a posição inicial do clique em relação ao contêiner
+          scrollLeft = control_inner.scrollLeft;// Armazena a posição inicial de rolagem do contêiner
+        };
+
+        const dragMove = (e) => {
+          if (!isDragging) return; // parar a execução se não estiver arrastando
+          e.preventDefault();// Prevê comportamento padrão do navegador (como seleção de texto)
+          const x = e.pageX - control_inner.offsetLeft;// Calcula a posição atual do mouse em relação ao contêiner
+          const walk = (x - startX) * 1.3; // Calcula a diferença de movimento desde o início do arrasto e multiplica por 1.3 para aumentar a velocidade
+          control_inner.scrollLeft = scrollLeft - walk;// Atualiza a posição de rolagem do contêiner
+        };
+
+        const dragEnd = () => {
+          isDragging = false;
+        };
+
+        control_inner.addEventListener('mousedown', dragStart);//evento de pressionar o botão do mouse ao contêiner
+        control_inner.addEventListener('mousemove', dragMove);
+        control_inner.addEventListener('mouseup', dragEnd);
+        control_inner.addEventListener('mouseleave', dragEnd);
+
+        return true;
       });
+
+
       
 }
 
