@@ -7,8 +7,9 @@ const path = require('path');
   app.on('ready', () => {
     Menu.setApplicationMenu(null);
     mainWindow = new BrowserWindow({
-      width: 1500,
+      width: 1550,
       height: 900,
+      icon: path.join(__dirname, 'assets', 'images', 'logo.ico')
       
     });
     

@@ -1,0 +1,31 @@
+{
+  "name": "progeto-electron",
+  "productName": "TopCinema",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "run": "electron .",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
+  },
+  "keywords": [],
+  "author": "Rafael Pereira",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^26.2.2"
+    
+  },
+  "dependencies": {
+    "electron-titlebar-windows": "^3.0.0"
+  },
+  "build": {
+    "appId": "com.TopCinema",
+    "win": {
+      "icon": "assets/images/logo.ico"
+    },
+    "mac": {
+      "category": "Cinema"
+    }
+  }
+}

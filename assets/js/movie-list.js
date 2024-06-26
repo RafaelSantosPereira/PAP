@@ -4,6 +4,7 @@ import {
     base_url,
     discover_movies,
     discover_series,
+    discover_anime,
     topRatedMovies,
     topRatedSeries,
     searchMovie,
@@ -11,213 +12,285 @@ import {
     trendingMovies,
     movieID,
     serieID,
-  } from './api.js';
+} from './api.js';
 
-import { getContent } from "../../index.js";
-const container = document.querySelector(".container")
-const gridList = document.querySelector(".grid-list")
-const contentType = document.getElementById('type')
-const sortBy = document.getElementById('sort')
-const year = document.getElementById('year')
-const logo = document.querySelector('.logo')
+import { getContent, redirect } from "../../index.js";
+
+const container = document.querySelector(".container");
+const gridList = document.querySelector(".grid-list");
+const contentType = document.getElementById('type');
+const sortBy = document.getElementById('sort');
+const provider = document.getElementById('provider');
+const logo = document.querySelector('.logo');
+const customCheckbox = document.getElementById('customCheckbox');
+const ContentOption = localStorage.getItem('ContentOption');
+let button = document.getElementById('btScience'); 
+let buttonAction = document.getElementById('btAction'); 
+let buttonAdventure = document.getElementById('btAdventure'); 
+let btWar = document.getElementById('btWar');
+let btFantasy = document.getElementById('btFantasy');
+let btThriller = document.getElementById('btThriller');
+let btRomance = document.getElementById('btRomance');
+let btHorror = document.getElementById('btHorror');
 let ContentURL = "";
 let id = localStorage.getItem('id');
-gridList.innerHTML=``;
-let index = 2
+let index = parseInt(localStorage.getItem('index') || '2', 10);
+
+// Carrega opções padrão
+const defaultSelectedOption = contentType.value;
+const defaultSortByOption = sortBy.value;
 
 
 
-let defaultSelectedOption = contentType.options[contentType.selectedIndex].value;
-let defaultSortByOption = sortBy.options[sortBy.selectedIndex].value;
-let defaultYearOption = year.options[year.selectedIndex].value;
 
 function removeActiveButton() {
-    let btgenres = document.querySelectorAll('.genre-bt'); // Seleciona todos os elementos com a classe 'genre-bt'
-
-    btgenres.forEach(function(button) {
-        button.classList.remove('genre-bt-active'); // Remove a classe 'genre-bt-active' de cada botão
+    document.querySelectorAll('.genre-bt').forEach(button => {
+        button.classList.remove('genre-bt-active');
     });
 }
 
+// Função para salvar a posição de scroll no localStorage
+function saveScrollPosition() {
+    const scrollPosition = container.scrollTop;
+    localStorage.setItem('scrollPosition', scrollPosition);
+    localStorage.setItem('index', index);
+}
 
+// Função para restaurar a posição de scroll do localStorage
+function restoreScrollPosition() {
+    const scrollPosition = localStorage.getItem('scrollPosition');
+    if (scrollPosition) {
+        container.scrollTop = parseInt(scrollPosition, 10);
+    }
+}
 
-  
-
+// Evento para salvar a posição de scroll antes de sair da página
+window.addEventListener('beforeunload', saveScrollPosition);
 
 document.addEventListener('DOMContentLoaded', function() {
-    
-    //mudar depois.
-    const SortOption = localStorage.getItem('SortOption');
-    const ContentOption = localStorage.getItem('ContentOption');
-    let genreIndex = localStorage.getItem('genreIndex');
-    const event = new Event('change');
-    const genreList = document.querySelector('.genre-sidebar')
-    let button = document.getElementById('btScience'); 
-    let buttonAction = document.getElementById('btAction'); 
-    let buttonAdventure = document.getElementById('btAdventure'); 
-    
-    if(ContentOption == 'series'){   
-        button.value = '10765'
-        button.textContent = 'Sci-Fi'
-        buttonAction.value = '10759'
-        buttonAdventure.value = '10759'
+    const url = localStorage.getItem('CurrentURL');
+    if (url) {
+        gridList.innerHTML = '';
+        const lastPageIndex = parseInt(localStorage.getItem('index') || '2', 10);
+
+        // Função para carregar as páginas necessárias
+        const loadPages = async (url, id, currentPage, lastPage) => {
+            for (let i = currentPage; i <= lastPage; i++) {
+                await getContent(`${url}&page=${i}`, gridList, id);
+                index = i + 1;
+            }
+            restoreScrollPosition();
+        };
+
+        loadPages(url, id, 1, lastPageIndex);
+        console.log(url);
     }
 
+    if (ContentOption === 'series' || ContentOption === 'anime') {   
+        button.value = '10765';
+        button.textContent = 'Sci-Fi';
+        buttonAction.value = '10759';
+        buttonAdventure.style.display = 'none';
+        btWar.value = '10768';
+        btFantasy.style.display = 'none';
+        btThriller.style.display = 'none';
+        btRomance.style.display = 'none'
+        btHorror.style.display = 'none'
+    }
 
-    
-     const url =localStorage.getItem('CurrentURL')
-     if(!genreIndex){
-        localStorage.setItem('genreIndex','1')
-     }
-    gridList.innerHTML=``;
-    getContent(url, gridList, id)
-
-    let activeGenres = JSON.parse(localStorage.getItem('activeGenres')) || []; //trassmora em array a string do local storage
-
-    activeGenres.forEach(function(value) {
-        let button = document.querySelector(`button[value="${value}"]`);
-        if (button) {
-            button.classList.add('genre-bt-active');
-        }
+    const activeGenres = JSON.parse(localStorage.getItem('activeGenres')) || [];
+    activeGenres.forEach(value => {
+        const button = document.querySelector(`button[value="${value}"]`);
+        if (button) button.classList.add('genre-bt-active');
     });
-    
 });
 
 
-logo.addEventListener('click', function(){
+const searchBtn = document.querySelector(".search-btn");
+searchBtn.addEventListener('click', redirect);
+document.addEventListener('keypress', function(event) {
+      
+    if (event.key === 'Enter') {
+        redirect();
+    }
+});
+
+logo.addEventListener('click', function() {
     localStorage.clear();
-})
+});
 
-    
-
-contentType.addEventListener('change',function(event){
-    removeActiveButton();
-    localStorage.removeItem('activeGenres')
-    localStorage.setItem('genreIndex', '1');
+contentType.addEventListener('change', function(event) {
     const selectedValue = event.target.value;
-    const SortOption = localStorage.getItem('SortOption');
-    let buttonFiction = document.getElementById('btScience'); 
-    let buttonAction = document.getElementById('btAction'); 
-    let buttonAdventure = document.getElementById('btAdventure'); 
-
-
-    gridList.innerHTML=``;
-    if(contentType.selectedIndex =='0'){
-        ContentURL = discover_movies
-        localStorage.setItem('ContentOption', 'movies');
-        localStorage.setItem('id', movieID);  
-        let id = localStorage.getItem('id');
-        ContentURL += '&sort_by='+ SortOption + '&vote_count.gte=300'            
-        getContent(ContentURL, gridList, id)  
-        buttonFiction .value = '878'
-        buttonFiction .textContent = 'Sciece Fiction'
-        buttonAction.value = '28'
-        buttonAdventure.value = '12'
-    }
-    if(contentType.selectedIndex =='1'){
-
-        ContentURL = discover_series
-        
-        localStorage.setItem('ContentOption', 'series');
-        localStorage.setItem('id', serieID);
-        let id = localStorage.getItem('id');
-        
-        ContentURL += '&sort_by='+ SortOption + '&vote_count.gte=300'
-        getContent(ContentURL, gridList, id)
-        index = 2
-
-        buttonFiction.value = '10765'
-        buttonFiction .textContent = 'Sci-Fi'
-        buttonAction.value = '10759'
-        buttonAdventure.value = '10759'
-        
-        
-    }
-    localStorage.setItem('CurrentURL', ContentURL);
-    localStorage.setItem('ID', id);
-    localStorage.setItemItem('ContentOption',contentType.value);
-})
+    localStorage.setItem('ContentOption', selectedValue);
+    localStorage.setItem('genreIndex', '1');
+    localStorage.removeItem('activeGenres');
+    updateGenreButtons(selectedValue);
+    updateContentURL(event.target.value, sortBy.value, provider.value);
+    index = 2;
+    console.log(ContentURL);
+});
 
 sortBy.addEventListener('change', function(event) {
-    const selectedValue = event.target.value;
-    localStorage.setItem('SortOption', selectedValue);
-
-    if(contentType.value == 'movies'){
-        ContentURL = discover_movies;
-        localStorage.setItem('id', movieID);  
-        let id = localStorage.getItem('id');
-        ContentURL += "&sort_by="+ selectedValue + '&vote_count.gte=300'
-        gridList.innerHTML=``;
-        getContent(ContentURL, gridList, id)
-        index = 2
-    }
-    else{
-        ContentURL = discover_series;
-        localStorage.setItem('id', serieID); 
-        let id = localStorage.getItem('id'); 
-        ContentURL += "&sort_by="+ selectedValue + '&vote_count.gte=400'
-        gridList.innerHTML=``;
-        getContent(ContentURL, gridList, id)
-        index=2
-    }
-
-    localStorage.setItem('CurrentURL', ContentURL);
-    removeActiveButton();
-    localStorage.setItem('genreIndex','1')
-    localStorage.removeItem('activeGenres')
+    updateContentURL(contentType.value, event.target.value, provider.value);
+    index = 2;
+    console.log(ContentURL);
 });
 
+provider.addEventListener('change', function(event) {
+    updateContentURL(contentType.value, sortBy.value, event.target.value);
+    index = 2;
+    console.log(ContentURL);
+});
 
+customCheckbox.addEventListener('change', function(event) {
+    updateContentURL(contentType.value, sortBy.value, provider.value);
+    index = 2;
+    console.log(ContentURL);
+});
 
 container.addEventListener('scroll', function() {
-    const url =localStorage.getItem('CurrentURL')
-    var ContainerHeight = container.scrollHeight;//altura total do container
-    var ScrollTop = container.scrollTop//distancia entre a parte visivel do conteiner o topo do container
-    var diff = ContainerHeight - ScrollTop//é o que sobra entre a parte visivel do conteiner e o seu fim
-    var height = container.clientHeight;//altura da parte visivel do container
-    let id = localStorage.getItem('id'); 
-    console.log(diff)
-    if (diff <= height+100 ){
-        
-        getContent(url+"&page="+index, gridList, id )
-        console.log(url+"&page="+index)
+    let url = localStorage.getItem('CurrentURL');
+    let id = localStorage.getItem('id');
+    const ContainerHeight = container.scrollHeight;
+    const ScrollTop = container.scrollTop;
+    const diff = ContainerHeight - ScrollTop;
+    const height = container.clientHeight;
+    if (diff <= height + 250) {
+        getContent(`${url}&page=${index}`, gridList, id);
         index++;
-        
-
     }
-})
+});
 
 genresSearch();
-function genresSearch(){
-    let genres = document.querySelectorAll('.genre-bt')
-        genres.forEach(function(button) {
+
+function updateContentURL(type, sortOption, provider = null) {
+    let baseURL;
+    let additionalParams = '';
+    let voteCount = 'vote_count.gte=250';
+    if (sortOption == 'primary_release_date.desc' || sortOption == 'first_air_date.desc')
+        voteCount = 'vote_count.gte=20';
+    localStorage.setItem('genreIndex', '1');
+
+    // Verifica o estado da checkbox
+    const excludeAnimations = document.getElementById('customCheckbox').checked;
+    if (excludeAnimations) {
+        additionalParams += '&without_genres=16';
+    }
+
+    if (type === 'movies') {
+        baseURL = discover_movies;
+        localStorage.setItem('id', movieID);
+        localStorage.setItem('ContentOption', 'movies');
+        voteCount = sortOption === 'vote_average.desc' ? 'vote_count.gte=300' : 'vote_count.gte=200';
+    } else if (type === 'series' || type === 'anime') {
+        baseURL = discover_series;
+        localStorage.setItem('id', serieID);
+        localStorage.setItem('ContentOption', 'series');
+        if (sortOption === 'primary_release_date.desc')
+            sortOption = 'first_air_date.desc';
+        else if (sortOption === 'popularity.desc')
+            voteCount = 'vote_count.gte=170';
+        else
+            voteCount = 'vote_count.gte=250';
+        if (type === 'anime') {
+            additionalParams += '&with_original_language=ja&with_genres=16';
+            if (sortOption.includes('vote_average.desc')) {
+                voteCount = 'vote_count.gte=70';
+            } else if (sortOption.includes('popularity.desc')) {
+                voteCount = 'vote_count.gte=40';
+            } else {
+                voteCount = 'vote_count.gte=20';
+            }
+            localStorage.setItem('genreIndex', '2');
+        }
+    }
+
+    ContentURL = `${baseURL}&sort_by=${sortOption}&${voteCount}${additionalParams}`;
+    if (provider && provider !== 'all') {
+        ContentURL += `&watch_region=US&with_watch_providers=${provider}`;
+    }
+    
+    gridList.innerHTML = '';
+    let id = localStorage.getItem('id');
+    getContent(ContentURL, gridList, id);
+    localStorage.setItem('SortOption', sortOption);
+    localStorage.setItem('CurrentURL', ContentURL);
+    localStorage.setItem('index', index);
+
+    removeActiveButton();
+}
+
+function genresSearch() {
+    document.querySelectorAll('.genre-bt').forEach(button => {
         button.addEventListener('click', function(event) {
             let genreIndex = localStorage.getItem('genreIndex');
+            let id = localStorage.getItem('id');
             let url = localStorage.getItem('CurrentURL');
-            if(genreIndex == 1){            
-                url += "&with_genres=" + event.target.value;
-                localStorage.setItem('CurrentURL', url);           
-            }
-            else{          
-                url += "|" + event.target.value;
-                localStorage.setItem('CurrentURL', url);
-            }
 
-            localStorage.setItem('genreIndex', genreIndex + 1);
-            gridList.innerHTML = '';
-            let id = localStorage.getItem('id'); 
-            getContent(url, gridList, id);
-            
-            console.log(url)
-            event.target.classList.add('genre-bt-active');
+            // Obtém os gêneros ativos armazenados no localStorage ou inicializa um array vazio
+            let activeGenres = JSON.parse(localStorage.getItem('activeGenres')) || [];
+            const genreValue = event.target.value; 
 
-            let activeGenres = JSON.parse(localStorage.getItem('activeGenres')) || [];//comverte a string do local storage em array
-                if (!activeGenres.includes(event.target.value)) {// se a lista de generos nao incluir o mesmo, o genero é adicionado
-                    activeGenres.push(event.target.value);
+            if (activeGenres.includes(genreValue)) {
+                // Se o gênero já estiver ativo, remove do array activeGenres
+                activeGenres = activeGenres.filter(genre => genre !== genreValue);
+                event.target.classList.remove('genre-bt-active'); // Remove a classe de botão ativo
+
+                const genresParam = activeGenres.join(',');
+                if (genresParam) {
+                    url = url.replace(/(&with_genres=[^&]*)/, `&with_genres=${genresParam}`);
+                } else {
+                    // Se não houver mais gêneros, remove o parâmetro `with_genres` da URL
+                    url = url.replace(/&with_genres=[^&]*/, '');
+                    localStorage.setItem('genreIndex', '1'); // Redefine o índice do gênero para 1
                 }
+            } else {
+                activeGenres.push(genreValue);
+                event.target.classList.add('genre-bt-active'); 
+
+                if (genreIndex == '1') {
+                    url += `&with_genres=${genreValue}`;
+                } else {
+                    url += `,${genreValue}`;
+                }
+
+                localStorage.setItem('genreIndex', (parseInt(genreIndex) + 1).toString());
+            }
+
             localStorage.setItem('activeGenres', JSON.stringify(activeGenres));
+            localStorage.setItem('CurrentURL', url);
+            gridList.innerHTML = '';
+            getContent(url, gridList, id);
+            console.log(url)
         });
     });
 }
 
-        
+function updateGenreButtons(type) {
+    const buttonFiction = document.getElementById('btScience');
+    const buttonAction = document.getElementById('btAction');
+    const btWar = document.getElementById('btWar');
+
+    if (type === 'series' || type === 'anime') {   
+        buttonFiction.value = '10765';
+        buttonFiction.textContent = 'Sci-Fi';
+        buttonAction.value = '10759';
+        buttonAdventure.style.display = 'none';
+        btWar.value = '10768';
+        btFantasy.style.display = 'none';
+        btThriller.style.display = 'none';
+        btRomance.style.display = 'none'
+        btHorror.style.display = 'none'
+
+    } else {
+        buttonFiction.value = '878';
+        buttonFiction.textContent = 'Science Fiction';
+        buttonAction.value = '28';
+        btWar.value = '10752';
+        buttonAdventure.style.display = 'inline-block';
+        btFantasy.style.display = 'inline-block';
+        btThriller.style.display = 'inline-block';
+        btRomance.style.display = 'inline-block'
+        btHorror.style.display = 'inline-block'
+    }
+}

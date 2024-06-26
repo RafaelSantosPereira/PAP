@@ -21,7 +21,7 @@
     /**
     GRADIENT COLOR
     */
-    --banner-overlay: 90deg, hsla(220, 17%, 7%, 1) 10%, hsla(250, 13%, 11%, 0.2);
+    --banner-overlay: 90deg, hsla(220, 17%, 7%, 1) 7%, hsla(250, 13%, 11%, 0);
     --bottom-overlay: 180deg, hsla(250, 13%, 11%, 0) 90%, hsla(250, 13%, 11%, 1);
     --top-overlay: 0deg, hsla(250, 13%, 11%, 0) 95%, hsla(250, 13%, 11%, 1);
     /**
@@ -305,7 +305,7 @@ li{list-style-type: none;}
     color: var(--on-surface);
     height: 100vh;
     overflow-y: overlay;
-    z-index: 1; 
+    z-index: 5; 
    
 
     
@@ -326,7 +326,7 @@ li{list-style-type: none;}
     position: relative;
     align-self: center;
     aspect-ratio: 16/9;
-    max-height: 74vh;
+    max-height: 80vh;
     overflow: hidden;
     width: 100%;
     
@@ -475,29 +475,7 @@ e também têm a classe .heading ou .banner-text. */
     padding-block-start: 32px; 
     padding-bottom: 80px;
 }
-.genre-bt{
-    background-color: var(--background);
-    color: var(--on-surface-variant);
-    
-}
-.genre-bt:hover{
-    color: var(--on-surface);
-    transition: var(--transition-short);
-}
-.genre-bt-active{
-    background-color: var(--background);
-    color: var(--on-surface);
-}
-.genre-sidebar{
-    width: 200px;
-    height: 100%;
-    display: flex;
-    flex-direction:column ;   
-    padding: 25px 0px 10px 35px; 
-    gap: 15px;
-    
-     
-}
+
 
 
 .title-wrapper{
@@ -511,7 +489,8 @@ e também têm a classe .heading ou .banner-text. */
     -moz-appearance: none; /* Para navegadores baseados em Mozilla */
     background-color:var(--background-base);
     border-radius: var(--radius-8);
-    width: 120px;
+    width: fit-content;
+    padding: 0 25px;
     height: 40px;
     font-family: var(--ff-dm-sans);
     margin-bottom: 20px;
@@ -523,7 +502,9 @@ e também têm a classe .heading ou .banner-text. */
     background-position-y: 5px;
     padding-left: 10px;
     font-size: large;
-    margin: 20px;
+    /* Top | Right | Bottom | Left */
+    margin: 10px 20px 20px 1px; 
+
 }
 .slider-list, .slider-list2{
     position: relative;
@@ -535,20 +516,27 @@ e também têm a classe .heading ou .banner-text. */
     position: absolute;
     cursor: pointer;
     z-index: 3;
-    
+
 }
 
 .slider-list .left , .slider-list2 .left{
     left: 10px;
     top: 50%; /* Centraliza verticalmente */
     transform: translateY(-50%);
-    
+    display: none;
 }
 
 .slider-list .right , .slider-list2 .right{
     right: 10px;
     top: 50%; /* Centraliza verticalmente */
     transform: translateY(-50%);
+    display: none;
+}
+.slider-list:hover i{
+    display: block; /* Mostra os ícones quando .slider-list está em hover */
+}
+.slider-list2:hover i{
+    display: block;
 }
 .slider-list i:hover, .slider-list2 i:hover{
     font-size: 75px;
@@ -619,6 +607,7 @@ e também têm a classe .heading ou .banner-text. */
 
     height: 100vh;
     overflow-y: overlay;
+    z-index: -2;
 }
 .container-detail::after{
     content: "";
@@ -650,11 +639,11 @@ e também têm a classe .heading ou .banner-text. */
     top: 0;
     left: 0;
     width: 100%;
-    height: 800px;
+    height: 100%;
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
-    z-index:0;
+    z-index:-1;
     
     
 }
@@ -662,7 +651,7 @@ e também têm a classe .heading ou .banner-text. */
     content: "";
     position: absolute;
     inset: 0;
-    background-image: linear-gradient(0deg, hsla(250, 13%, 11%, 1), hsla(250, 13%, 11%, 0.7));
+    background-image: linear-gradient(0deg, hsla(250, 13%, 11%, 1), hsla(250, 13%, 11%, 0.65));
 }   
 
 .movie-detail .movie-poster{
@@ -678,8 +667,6 @@ e também têm a classe .heading ou .banner-text. */
 .movie-detail{
     display: flex;
     height:70vh;
-   
-    
 
 }
 .detail-box{
@@ -770,14 +757,105 @@ e também têm a classe .heading ou .banner-text. */
     aspect-ratio: 16/9;
     flex-shrink: 0;
     max-width: 500px;
-    width: calc(100% - 40px);
+    width: 480px
 }
 
 .movie-list .also-like{
     margin-top: 50px;
 }
+
 /*Movie List Page */
- 
+.genre-bt{
+    background-color: var(--background);
+    color: var(--on-surface-variant);
+    
+}
+.genre-bt:hover{
+    color: var(--on-surface);
+    transition: var(--transition-short);
+}
+.genre-bt-active{
+    background-color: var(--background);
+    color: var(--on-surface);
+}
+.genre-sidebar{
+    width: 200px;
+    height: 100%;
+    display: flex;
+    flex-direction:column ;   
+    padding: 15px 0px 10px 35px; 
+    gap: 15px;
+    height: 100%;
+    overflow-y: overflow;
+
+
+    height: 90vh;
+    overflow-y: overlay;
+
+     
+}
+ .filters{
+    display: flex;
+
+    width: 100%;
+    position: relative;
+    height: fit-content;
+    
+ }
+.list-box{
+    width: 100%;
+    padding-left: 5px;
+}
+.list-cont{
+    height: 100vh;
+    overflow-y: overlay;  
+}
+
+
+ .checkAnimation input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+/* Estilizar o label que contém a checkbox */
+.checkAnimation {
+    display: flex;
+    align-items: center;
+}
+
+.checkAnimation label {
+    position: relative;
+    padding-left: 30px; /* Espaço para a checkbox personalizada */
+    cursor: pointer;
+    user-select: none;
+}
+
+/* Criar a checkbox personalizada */
+.checkAnimation label::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;  /* Largura da checkbox */
+    height: 20px; /* Altura da checkbox */
+    border: 2px solid #333;
+    border-radius: 3px;
+    background-color:var(--background);
+    box-sizing: border-box;
+}
+
+/* Adicionar o símbolo de check quando a checkbox está marcada */
+.checkAnimation input[type="checkbox"]:checked + label::before {
+    content: "\2714";  /* Símbolo de check */
+    font-size: 16px;
+    color: #ffffff;
+    text-align: center;
+    line-height: 20px;
+}
   .genre-list .title-wrapper{
     margin-block-end: 56px;
   }
@@ -785,35 +863,13 @@ e também têm a classe .heading ou .banner-text. */
     
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    column-gap: 16px;
+    column-gap: 15px;
     row-gap: 20px
+    
 }
 :is(.genre-list, .search-modal) :is(.movie-card, .card-banner){ width: 100%;}
 
-/*SEARCH MODAL */
 
-.search-modal{
-    position: fixed;
-    left: 87px; 
-    top: 70px;
-    height: 100%;
-    background-color: var(--surface);
-    padding: 50px 24px;
-    overflow-y: overlay;
-    z-index: 4;
-    display: none;
-    border-top-left-radius: var(--radius-24);
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-    border-bottom-left-radius: 0;
-    
-}
-.search-modal.active{display: block}
-.search-modal .label{
-    color: var(--primary-variant);
-    font-weight: var(--weight-bold);
-    margin-block-end: 0px;
-}
 
 
 
