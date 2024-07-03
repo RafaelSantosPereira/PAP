@@ -47,7 +47,7 @@ function getContent(url, Slider,parentElement, ID, stringQuery) {
       fetch(discoverWithGenres).then(res => res.json()).then(movieData => {
           console.log(movieData); 
           movies_div.innerHTML='';
-          showFds(movieData.results, Slider,parentElement, ID)
+         showRecomended(movieData.results, Slider,parentElement, ID)
       })
     });
   }
@@ -75,6 +75,7 @@ function showMovies(movie) {
         genres_name.push(" "+genres.name)
       })
       const title_or_name = title || name;
+      // se ouver realease date ela tera apenas 4 caracteres caso haja first air date ela tera apenas 4 caracteres
       const year = release_date ? release_date.substring(0, 4) : first_air_date ? first_air_date.substring(0, 4) : '';
       const rate = vote_average.toFixed(1);
       const duration = movie.runtime || (movie.seasons ? movie.seasons.length : 0);
@@ -112,9 +113,10 @@ function showMovies(movie) {
     };
     function showCredits(movie_cast){
       const{cast, crew} = movie_cast
-
+      
       const cast_name = [];
       let director_name;
+      //insere 10 elementos do cast no array cast_name
       for(let i = 0; i < 10 && i < cast.length; i++){
         cast_name.push(" "+cast[i].name)         
       }
@@ -129,7 +131,7 @@ function showMovies(movie) {
       const DirectorElement = document.getElementById('director');
       const directorLabelElement = document.getElementById('director-label');
       StarringElement.textContent = `${cast_name}`;
-
+      //se nao houver diretor limpa a div
       if(!director_name){
         directorLabelElement.textContent = ``
         DirectorElement.textContent = ``;
@@ -142,13 +144,14 @@ function showMovies(movie) {
     }
     function showVideos(trailers){
       
-      const { results } = trailers;
+      const { results } = trailers; //results é um array que pertence aos dados obtidos pela função
       const videoInnerElement = document.getElementById('video-inner');
       videoInnerElement.innerHTML = ''; // Limpa o conteúdo anterior
       if(results.length == 0){
         const label = document.getElementById('label-trailers');
         label.innerHTML= ``;
       }
+      //percorre o array de trailers 'results' e insere esses trailer num iframe
       for (let i = 0; i < results.length; i++) {
           const trailer = `https://www.youtube.com/embed/${results[i].key}`;
           const videoCard = document.createElement('div');
@@ -161,7 +164,7 @@ function showMovies(movie) {
           videoInnerElement.appendChild(videoCard);
       }
     }
-    function showFds(data, Slider, parentElement, ID){
+    function showRecomended(data, Slider, parentElement, ID){
       data.forEach(movie => {
         const { name, title, first_air_date, poster_path, vote_average, release_date,id, genre_ids, original_language } = movie;
           if(!poster_path){
@@ -186,7 +189,7 @@ function showMovies(movie) {
           movieEl.innerHTML = `
             <a href="./detail.html?${ID}=${id}" class="card-btn"> 
               <figure class="poster-box card-banner">
-                <img src="${ImageBaseURL + poster_path}" class="img-cover" alt="" >
+                <img src="${ImageBaseURL + poster_path}" class="img-cover" alt="${title_or_name}" >
               </figure>
               <div class="card-wrapper">
                 <h4 class="title">${title_or_name}</h4>

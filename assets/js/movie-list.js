@@ -168,7 +168,7 @@ function updateContentURL(type, sortOption, provider = null) {
     let additionalParams = '';
     let voteCount = 'vote_count.gte=250';
     if (sortOption == 'primary_release_date.desc' || sortOption == 'first_air_date.desc')
-        voteCount = 'vote_count.gte=20';
+        voteCount = 'vote_count.gte=10';
     localStorage.setItem('genreIndex', '1');
 
     // Verifica o estado da checkbox

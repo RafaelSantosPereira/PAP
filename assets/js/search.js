@@ -1,4 +1,4 @@
-import { searchMovie, searchSerie, movieID, serieID } from "./api.js";
+import { searchMovie, searchSerie, movieID, serieID, discover_movies } from "./api.js";
 import { getContent, ScrollSlider } from "../../index.js";
 
 const urlParams = new URLSearchParams(window.location.search);
@@ -13,6 +13,16 @@ const movieContainer = document.getElementById("movie-container")
 document.addEventListener('DOMContentLoaded', function() {
     searchContent();
 
+    
+    let listLink = document.getElementById('base')
+        listLink.addEventListener('click', function(){
+          localStorage.clear();
+          const Sort = 'popularity.desc&vote_count.gte=200';
+
+          localStorage.setItem('CurrentURL', discover_movies + '&sort_by=' + Sort);      
+          localStorage.setItem('id', movieID);
+          localStorage.setItem('genreIndex', '1');
+      })  
     
 });
 
@@ -40,12 +50,4 @@ async function searchContent() {
         console.error('Error fetching content:', error);
     }   
 }
-const listLink = document.querySelector('.base-list');
-    listLink.addEventListener('click', function(){
-      localStorage.clear();
-      const Sort = 'popularity.desc&vote_count.gte=200';
 
-      localStorage.setItem('CurrentURL', discover_movies + '&sort_by=' + Sort);      
-      localStorage.setItem('id', movieID);
-      localStorage.setItem('genreIndex', '1');
-  })  

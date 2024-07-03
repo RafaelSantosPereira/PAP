@@ -48,63 +48,75 @@ export{showContent};
     return { sliderlist, new_div, titleWrapper };
   }
   
+  document.addEventListener('DOMContentLoaded', function() {
   
-  if (window.location.href.endsWith('/index.html')){
-    movies_div.innerHTML = '';
-    getContent(trendingMovies, movies_div, movieID);
-    ScrollSlider(slider,movies_div);
+   
+    if (window.location.href.endsWith('/index.html')){
+      BannerContent(trending);
+      movies_div.innerHTML = '';
+      getContent(trendingMovies, movies_div, movieID);
+      ScrollSlider(slider,movies_div);
+    
+      list.appendChild(titleWrapper3);
+      titleWrapper3.innerHTML = `<h3 class="title-large">Trending Series</h3>`
+      list.appendChild(sliderlist3);
+      sliderlist3.innerHTML = ` <i id="left" class="bi bi-chevron-left left"></i>
+                               <i id="right" class="bi bi-chevron-right right"></i>`
+      sliderlist3.appendChild(new_div3);
+      getContent(trendingSeries, new_div3, serieID);
+      ScrollSlider(sliderlist3, new_div3)
   
-    list.appendChild(titleWrapper3);
-    titleWrapper3.innerHTML = `<h3 class="title-large">Trending Series</h3>`
-    list.appendChild(sliderlist3);
-    sliderlist3.innerHTML = ` <i id="left" class="bi bi-chevron-left left"></i>
-                             <i id="right" class="bi bi-chevron-right right"></i>`
-    sliderlist3.appendChild(new_div3);
-    getContent(trendingSeries, new_div3, serieID);
-    ScrollSlider(sliderlist3, new_div3)
+      list.appendChild(titleWrapper2);
+      titleWrapper2.innerHTML = `<h3 class="title-large">Popular Movies</h3>`
+      list.appendChild(sliderlist2);
+      sliderlist2.innerHTML = ` <i id="left" class="bi bi-chevron-left left"></i>
+                               <i id="right" class="bi bi-chevron-right right"></i>`
+      sliderlist2.appendChild(new_div2);
+      getContent(discover_movies, new_div2, movieID);
+      ScrollSlider(sliderlist2, new_div2)
+  
+      list.appendChild(titleWrapper);
+      titleWrapper.innerHTML = `<h3 class="title-large">Popular Series</h3>`
+      list.appendChild(sliderlist);
+      sliderlist.innerHTML = ` <i id="left" class="bi bi-chevron-left left"></i>
+                               <i id="right" class="bi bi-chevron-right right"></i>`
+      sliderlist.appendChild(new_div);
+      getContent(discover_series + '&vote_count.gte=170', new_div, serieID);
+      ScrollSlider(sliderlist, new_div);
 
-    list.appendChild(titleWrapper2);
-    titleWrapper2.innerHTML = `<h3 class="title-large">Popular Movies</h3>`
-    list.appendChild(sliderlist2);
-    sliderlist2.innerHTML = ` <i id="left" class="bi bi-chevron-left left"></i>
-                             <i id="right" class="bi bi-chevron-right right"></i>`
-    sliderlist2.appendChild(new_div2);
-    getContent(discover_movies, new_div2, movieID);
-    ScrollSlider(sliderlist2, new_div2)
+      list.appendChild(titleWrapper4);
+      titleWrapper4.innerHTML = `<h3 class="title-large">Top Rated Movies</h3>`
+      list.appendChild(sliderlist4);
+      sliderlist4.innerHTML = ` <i id="left" class="bi bi-chevron-left left"></i>
+                               <i id="right" class="bi bi-chevron-right right"></i>`
+      sliderlist4.appendChild(new_div4);
+      getContent(topRatedMovies, new_div4, movieID);
+      ScrollSlider(sliderlist4, new_div4)
+      
+      list.appendChild(titleWrapper5);
+      titleWrapper5.innerHTML = `<h3 class="title-large">Top Rated Series</h3>`
+      list.appendChild(sliderlist5);
+      sliderlist5.innerHTML = ` <i id="left" class="bi bi-chevron-left left"></i>
+                               <i id="right" class="bi bi-chevron-right right"></i>`
+      sliderlist5.appendChild(new_div5);
+      getContent(topRatedSeries, new_div5, serieID);
+      ScrollSlider(sliderlist5, new_div5)
+  
+      const listLink = document.querySelector('.base-list');
+        listLink.addEventListener('click', function(){
+          localStorage.clear();
+          const Sort = 'popularity.desc&vote_count.gte=200';
 
-    list.appendChild(titleWrapper);
-    titleWrapper.innerHTML = `<h3 class="title-large">Popular Series</h3>`
-    list.appendChild(sliderlist);
-    sliderlist.innerHTML = ` <i id="left" class="bi bi-chevron-left left"></i>
-                             <i id="right" class="bi bi-chevron-right right"></i>`
-    sliderlist.appendChild(new_div);
-    getContent(discover_series + '&vote_count.gte=170', new_div, serieID);
-    ScrollSlider(sliderlist, new_div);
+          localStorage.setItem('CurrentURL', discover_movies + '&sort_by=' + Sort);      
+          localStorage.setItem('id', movieID);
+          localStorage.setItem('genreIndex', '1');
+      })  
+    }
     
     
-
-
-
-    list.appendChild(titleWrapper4);
-    titleWrapper4.innerHTML = `<h3 class="title-large">Top Rated Movies</h3>`
-    list.appendChild(sliderlist4);
-    sliderlist4.innerHTML = ` <i id="left" class="bi bi-chevron-left left"></i>
-                             <i id="right" class="bi bi-chevron-right right"></i>`
-    sliderlist4.appendChild(new_div4);
-    getContent(topRatedMovies, new_div4, movieID);
-    ScrollSlider(sliderlist4, new_div4)
-    
-    list.appendChild(titleWrapper5);
-    titleWrapper5.innerHTML = `<h3 class="title-large">Top Rated Series</h3>`
-    list.appendChild(sliderlist5);
-    sliderlist5.innerHTML = ` <i id="left" class="bi bi-chevron-left left"></i>
-                             <i id="right" class="bi bi-chevron-right right"></i>`
-    sliderlist5.appendChild(new_div5);
-    getContent(topRatedSeries, new_div5, serieID);
-    ScrollSlider(sliderlist5, new_div5)
-
-    
-  }
+});
+  
+  
 
     
   export function ScrollSlider(Slider, parentElement){
@@ -178,7 +190,7 @@ function showContent(data,parentElement, ID) {
       movieEl.innerHTML = `
         <a href="./detail.html?${ID}=${id} class="card-btn"> 
           <figure class="poster-box card-banner">
-            <img src="${ImageBaseURL + poster_path}" class="img-cover" alt="" >
+            <img src="${ImageBaseURL + poster_path}" class="img-cover" alt="${title_or_name}" >
           </figure>
           <div class="card-wrapper">
             <h4 class="title">${title_or_name}</h4>
@@ -196,21 +208,7 @@ function showContent(data,parentElement, ID) {
 
   });
 }
-document.addEventListener('DOMContentLoaded', function() {
-  
-    BannerContent(trending);
 
-    
-    const listLink = document.querySelector('.base-list');
-    listLink.addEventListener('click', function(){
-      localStorage.clear();
-      const Sort = 'popularity.desc&vote_count.gte=200';
-
-      localStorage.setItem('CurrentURL', discover_movies + '&sort_by=' + Sort);      
-      localStorage.setItem('id', movieID);
-      localStorage.setItem('genreIndex', '1');
-  })  
-});
 
 
 

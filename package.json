@@ -2,7 +2,7 @@
   "name": "progeto-electron",
   "productName": "TopCinema",
   "version": "1.0.0",
-  "description": "",
+  "description": "movie and series app",
   "main": "main.js",
   "scripts": {
     "run": "electron .",
